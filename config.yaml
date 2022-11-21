@@ -1,5 +1,5 @@
 # Site configuration
-baseURL: https://example.com/
+baseURL: https://dalibo.github.io/from-oracle-to-postgresql/
 theme: hugo-book
 defaultContentLanguage: en
 enableEmoji: true
