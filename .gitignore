@@ -1,0 +1,4 @@
+*.lock
+**/_gen/**
+**/exampleSite/**
+public/*
