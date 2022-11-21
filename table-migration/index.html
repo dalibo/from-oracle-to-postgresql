@@ -1,0 +1,179 @@
+<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Table migration # Table definition are quite identical between both RDBMS, except that PostgreSQL does not have global temporary tables. Each temporary table is private to its own session. Data inserted into a temporary table can be automatically destroyed at the transaction end (using ON COMMIT DELETE ROWS clause) or only at the end of the session (with default implicit clause ON COMMIT PRESERVE ROWS)."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Table migration"><meta property="og:description" content="Table migration # Table definition are quite identical between both RDBMS, except that PostgreSQL does not have global temporary tables. Each temporary table is private to its own session. Data inserted into a temporary table can be automatically destroyed at the transaction end (using ON COMMIT DELETE ROWS clause) or only at the end of the session (with default implicit clause ON COMMIT PRESERVE ROWS)."><meta property="og:type" content="article"><meta property="og:url" content="https://example.com/table-migration/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="From Oracle to PostgreSQL"><title>Table migration</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=fr href=https://example.com/fr/reprise-des-tables/ title="Reprise des tables"><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/en.search.min.95c92b6d1acfeccbfbe5b5bcabbf661d49ac6c98314c68e7361dc54efea924c2.js integrity="sha256-lckrbRrP7Mv75bW8q79mHUmsbJgxTGjnNh3FTv6pJMI="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/><img src=/images/logo.png alt=Logo><span>From Oracle to PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/general-differences-between-oracle-and-postgresql/>General differences</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle checked>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/porting-the-database-schema-to-postgresql/>Porting database objects</a></label><ul><li><a href=https://example.com/datatypes/>Datatypes</a></li><li><a href=https://example.com/table-migration/ class=active>Table migration</a></li><li><a href=https://example.com/views-migration/>Views migration</a></li><li><a href=https://example.com/sequences-migration/>Sequences migration</a></li><li><a href=https://example.com/index-migration/>Index migration</a></li><li><a href=https://example.com/partitioning/>Partitioning</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/porting-sql-queries/>Porting SQL queries</a></label><ul><li><a href=https://example.com/specificities-on-data-types/>Specificities on Data types</a></li><li><a href=https://example.com/joins/>Joins</a></li><li><a href=https://example.com/conditional-expressions/>Conditional expressions</a></li><li><a href=https://example.com/hierarchical-querying/>Hierarchical querying</a></li><li><a href=https://example.com/transaction-management/>Transaction management</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/pl-sql-to-pl-pgsql-porting/>PL/SQL to PL/pgSQL porting</a></label><ul><li><a href=https://example.com/porting-procedures-and-functions/>Porting procedures and functions</a></li><li><a href=https://example.com/triggers-conversion/>Triggers conversion</a></li><li><a href=https://example.com/control-structures/>Control structures</a></li><li><a href=https://example.com/pl-sql-code-conversion/>PL/SQL code conversion</a></li><li><a href=https://example.com/cursors/>Cursors</a></li><li><a href=https://example.com/pl-sql-specificities/>PL/SQL specificities</a></li><li><a href=https://example.com/oracles-packages/>Oracle's packages</a></li></ul></li><li><a href=https://example.com/contact-us/>Contact us</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Table migration</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#table-migration>Table migration</a><ul><li><a href=#virtual-columns>Virtual Columns</a></li><li><a href=#index-organized-tables>Index-Organized Tables</a></li><li><a href=#external-tables>External tables</a></li><li><a href=#global-temporary-tables>Global temporary tables</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=table-migration>Table migration
+<a class=anchor href=#table-migration>#</a></h2><p>Table definition are quite identical between both RDBMS, except that PostgreSQL
+does not have global temporary tables. Each temporary table is private to its
+own session. Data inserted into a temporary table can be automatically destroyed
+at the transaction end (using <code>ON COMMIT DELETE ROWS</code> clause) or only at the end
+of the session (with default implicit clause <code>ON COMMIT PRESERVE ROWS</code>). In addition,
+PostgreSQL can also automatically drop the table when the transaction is finished
+(<code>ON COMMIT DROP</code>). A workaround exists and will be proposed later in this guide.</p><p>There&rsquo;s no equivalent in PostgreSQL of the storage clause like <code>INITTRANS</code> and
+<code>MAXEXTENTS</code>. PostgreSQL allocates storage on a dynamic basis. Only <code>PCTFREE</code>,
+which indicates a percentage of size left free in a block, has an equivalent
+in fillfactor under PostgreSQL. However <code>PCTUSED</code> has no equivalent and has
+no sense regarding how PostgreSQL manages its storage.</p><p>References:</p><ul><li><a href=http://www.postgresql.org/docs/current/static/sql-createtable.html>CREATE TABLE</a></li></ul><h3 id=virtual-columns>Virtual Columns
+<a class=anchor href=#virtual-columns>#</a></h3><p>To replace virtual columns, PostgreSQL supports <em>generated columns</em>, introduced
+in version 12. A generated column is a special column which is always computed
+from other columns. Only <code>STORED</code> capability is implemented; a <code>VIRTUAL</code> generated
+column may be added at a future major release.</p><p>Basic example of a table with a virtal column with Oracle:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> employees (
+</span></span><span style=display:flex><span>  id          NUMBER,
+</span></span><span style=display:flex><span>  first_name  VARCHAR2(<span style=color:#ae81ff>10</span>),
+</span></span><span style=display:flex><span>  salary      NUMBER(<span style=color:#ae81ff>9</span>,<span style=color:#ae81ff>2</span>),
+</span></span><span style=display:flex><span>  commission  NUMBER(<span style=color:#ae81ff>3</span>),
+</span></span><span style=display:flex><span>  salary2     NUMBER <span style=color:#66d9ef>GENERATED</span> ALWAYS 
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>AS</span> (ROUND(salary<span style=color:#f92672>*</span>(<span style=color:#ae81ff>1</span><span style=color:#f92672>+</span>commission<span style=color:#f92672>/</span><span style=color:#ae81ff>100</span>),<span style=color:#ae81ff>2</span>)) VIRTUAL,
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div><p>This could be ported in PostgreSQL with the following syntax:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> employees (
+</span></span><span style=display:flex><span>  id          BIGINT,
+</span></span><span style=display:flex><span>  first_name  VARCHAR(<span style=color:#ae81ff>10</span>),
+</span></span><span style=display:flex><span>  salary      DOUBLE <span style=color:#66d9ef>PRECISION</span>,
+</span></span><span style=display:flex><span>  commission  INTEGER,
+</span></span><span style=display:flex><span>  salary2     DOUBLE <span style=color:#66d9ef>PRECISION</span> <span style=color:#66d9ef>GENERATED</span> ALWAYS 
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>AS</span> (ROUND((salary<span style=color:#f92672>*</span>(<span style=color:#ae81ff>1</span><span style=color:#f92672>+</span>commission<span style=color:#f92672>/</span><span style=color:#ae81ff>100</span>))::numeric,<span style=color:#ae81ff>2</span>)) STORED
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div><p>To emulate a non-stored data like <code>VIRTUAL</code> works with Oracle, views are usually
+the best solution.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> employees (
+</span></span><span style=display:flex><span>  id          BIGINT,
+</span></span><span style=display:flex><span>  first_name  VARCHAR(<span style=color:#ae81ff>10</span>),
+</span></span><span style=display:flex><span>  salary      DOUBLE <span style=color:#66d9ef>PRECISION</span>,
+</span></span><span style=display:flex><span>  commission  INTEGER
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>VIEW</span> virt_employees <span style=color:#66d9ef>AS</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> id, first_name, salary, commission, 
+</span></span><span style=display:flex><span>        (ROUND((salary<span style=color:#f92672>*</span>(<span style=color:#ae81ff>1</span><span style=color:#f92672>+</span>commission<span style=color:#f92672>/</span><span style=color:#ae81ff>100</span>))::numeric,<span style=color:#ae81ff>2</span>)) salary2
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> employees;
+</span></span></code></pre></div><p>References:</p><ul><li><a href=https://pgpedia.info/g/generated-column.html>Generated column</a></li><li><a href=http://www.postgresql.org/docs/current/static/sql-createtable.html>CREATE TABLE</a></li><li><a href=http://www.postgresql.org/docs/current/static/sql-createview.html>CREATE VIEW</a></li></ul><h3 id=index-organized-tables>Index-Organized Tables
+<a class=anchor href=#index-organized-tables>#</a></h3><p>PostgreSQL has no direct equivalent of the <em>IOT</em>.</p><p>It&rsquo;s possible to physically sort a table in the same order as one of its indexes
+thanks to the <code>CLUSTER</code> statement. However, each following write will be written
+in any available space in the table, not taking the index&rsquo;s order into account.
+It&rsquo;s possible to reduce this phenomenon by reducing the <em>fillfactor</em> to a smaller
+value (than the default 100) to let space to the new versions of a record, as a
+new version is put on the same page as the original one if free space is sufficient.</p><p>An Index Organized Table, or <em>clustered</em> table, can bring a large improvement on
+the <em>range scan</em> type queries, where a consecutive range of records of a table are
+accessed by a query. For instance, a query returning all the customers whose
+name start with <code>MAR (SELECT * FROM clients WHERE nom LIKE 'MAR%' )</code> will benefit
+from an IOT. Reading will be faster as all records pointed by the index will be
+in the same block, or in a few consecutive blocks.</p><p><code>CLUSTER</code> is thus a one-time operation, that should be performed again more or
+less frequently, depending on the write rate in the table, and the data
+maintenance window. One has to keep in mind that this operation is heavy and
+requires an exclusive lock that will block all reads and writes during the
+rebuild. Please note that no reindexation is necessary following a <code>CLUSTER</code>, as
+the indexes are already rebuilt during the operation.</p><p>The following example illustrates a significant performance improvement on a
+simple table containing 10 millions of records. The query runtime is divided by
+two after clustering it on the appropriate index.</p><p>Objects creation:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t6 (i SERIAL <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span>, v INTEGER);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t6 (v) <span style=color:#66d9ef>SELECT</span> round(random()<span style=color:#f92672>*</span><span style=color:#ae81ff>10000</span>) <span style=color:#66d9ef>FROM</span> generate_series(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>10000000</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>INDEX</span> idx_t6_v <span style=color:#66d9ef>ON</span> t6 (v);
+</span></span></code></pre></div><p>The query runtime is consistent, as data is cached:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#66d9ef>count</span>(<span style=color:#f92672>*</span>) <span style=color:#66d9ef>FROM</span> t6 <span style=color:#66d9ef>WHERE</span> v <span style=color:#66d9ef>BETWEEN</span> <span style=color:#ae81ff>100</span> <span style=color:#66d9ef>AND</span> <span style=color:#ae81ff>1000</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>--  count  
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- --------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  902274
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- 
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- Time: 350,100 ms
+</span></span></span></code></pre></div><p>This table is then clustered over the <code>idx_t6_v</code> index:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CLUSTER</span> t6 <span style=color:#66d9ef>USING</span> idx_t6_v;
+</span></span></code></pre></div><p>The runtime has been divided by a factor of two:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#66d9ef>count</span>(<span style=color:#f92672>*</span>) <span style=color:#66d9ef>FROM</span> t6 <span style=color:#66d9ef>WHERE</span> v <span style=color:#66d9ef>BETWEEN</span> <span style=color:#ae81ff>100</span> <span style=color:#66d9ef>AND</span> <span style=color:#ae81ff>1000</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>--  count  
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- --------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  902274
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- 
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- Time: 148,755 ms
+</span></span></span></code></pre></div><p>References:</p><ul><li><a href=http://www.postgresql.org/docs/current/static/sql-cluster.html>CLUSTER</a></li></ul><h3 id=external-tables>External tables
+<a class=anchor href=#external-tables>#</a></h3><p>External tables make it possible to interact with CSV files from an Oracle
+database. This can be emulated through a <strong>Foreign Data Wrapper</strong>, as implemented by
+PostgreSQL in respect with the SQL/MED extension to SQL. This new feature makes
+it possible to declare Foreign Data Wrappers (FDW) which allow for remote access
+to objects outside of the database: another database, a CSV file, etc…</p><p>Given an external table&rsquo;s definition for Oracle:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>OR</span> <span style=color:#66d9ef>REPLACE</span> DIRECTORY ext <span style=color:#66d9ef>AS</span> <span style=color:#e6db74>&#39;/usr/tmp/&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> ext_tab (
+</span></span><span style=display:flex><span>  empno  CHAR(<span style=color:#ae81ff>4</span>),
+</span></span><span style=display:flex><span>  ename  CHAR(<span style=color:#ae81ff>20</span>),
+</span></span><span style=display:flex><span>  job    CHAR(<span style=color:#ae81ff>20</span>),
+</span></span><span style=display:flex><span>  deptno CHAR(<span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>) ORGANIZATION <span style=color:#66d9ef>EXTERNAL</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>TYPE</span> oracle_loader
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>DEFAULT</span> DIRECTORY ext
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>ACCESS</span> <span style=color:#66d9ef>PARAMETERS</span> (
+</span></span><span style=display:flex><span>    RECORDS DELIMITED <span style=color:#66d9ef>BY</span> NEWLINE
+</span></span><span style=display:flex><span>    BADFILE <span style=color:#e6db74>&#39;bad_%a_%p.bad&#39;</span>
+</span></span><span style=display:flex><span>    LOGFILE <span style=color:#e6db74>&#39;log_%a_%p.log&#39;</span>
+</span></span><span style=display:flex><span>    FIELDS TERMINATED <span style=color:#66d9ef>BY</span> <span style=color:#e6db74>&#39;,&#39;</span>
+</span></span><span style=display:flex><span>    MISSING FIELD <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>ARE</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>    REJECT <span style=color:#66d9ef>ROWS</span> <span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>ALL</span> <span style=color:#66d9ef>NULL</span> FIELDS
+</span></span><span style=display:flex><span>    (empno, ename, job, deptno))
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>LOCATION</span> (<span style=color:#e6db74>&#39;demo1.dat&#39;</span>)
+</span></span><span style=display:flex><span>  )
+</span></span><span style=display:flex><span>PARALLEL
+</span></span><span style=display:flex><span>REJECT <span style=color:#66d9ef>LIMIT</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>NOMONITORING;
+</span></span></code></pre></div><p>It will be translate this way in PostgreSQL:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> EXTENSION file_fdw;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> SERVER ext <span style=color:#66d9ef>FOREIGN</span> <span style=color:#66d9ef>DATA</span> WRAPPER file_fdw;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>FOREIGN</span> <span style=color:#66d9ef>TABLE</span> ext_tab (
+</span></span><span style=display:flex><span>        empno CHAR(<span style=color:#ae81ff>4</span>),
+</span></span><span style=display:flex><span>        ename CHAR(<span style=color:#ae81ff>20</span>),
+</span></span><span style=display:flex><span>        job CHAR(<span style=color:#ae81ff>20</span>),
+</span></span><span style=display:flex><span>        deptno CHAR(<span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>) SERVER ext <span style=color:#66d9ef>OPTIONS</span>(filename <span style=color:#e6db74>&#39;/usr/tmp/demo1.dat&#39;</span>, format <span style=color:#e6db74>&#39;csv&#39;</span>,
+</span></span><span style=display:flex><span><span style=color:#66d9ef>delimiter</span> <span style=color:#e6db74>&#39;,&#39;</span>);
+</span></span></code></pre></div><p>If the sole pupose is loading data, please note that PostgreSQL&rsquo;s <code>COPY</code> statement
+is an alternative to the creation of a foreign data wrapper. For example, to load
+the example&rsquo;s CSV file, one only has to run the following statement:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>COPY</span> ext_table <span style=color:#66d9ef>FROM</span> <span style=color:#e6db74>&#39;/usr/tmp/demo1.csv&#39;</span> <span style=color:#66d9ef>WITH</span> CSV;
+</span></span></code></pre></div><p>References:</p><ul><li><a href=http://www.postgresql.org/docs/current/static/file-fdw.html>file_fdw</a></li><li><a href=http://www.postgresql.org/docs/current/static/sql-copy.html>COPY</a></li></ul><h3 id=global-temporary-tables>Global temporary tables
+<a class=anchor href=#global-temporary-tables>#</a></h3><p>The Oracle <code>GLOBAL TEMPORARY TABLE</code> object has no equivalent in PostgreSQL. As a
+reminder, a global temporary table is a table whose structure is permanent, but
+whose content is temporary, i.e. specific to each user session.</p><p>Several solutions exist to carry these objects.</p><p>Depending on usage, it may happen that a classic table can meet the need, with a
+simple truncation of the table with <code>TRUNCATE</code> command on first use. But this
+prevents a use of the table by several users in parallel.</p><p>The
+<a href=https://github.com/darold/pgtt>pgtt</a> extension, developed by Gilles
+Darold, emulates how global temporary tables work. But his use requires the
+extension library to be loaded once the user is logged in.</p><p>It is also possible to build your own temporary tables globally as follows:</p><ul><li>create a set of tables in a dedicated schema with the structure of global
+temporary tables to emulate; these tables will serve as a model for creating
+temporary tables;</li><li>associate a comment to each table to indicate the mode of operation of the
+temporary table during transaction COMMITs (<code>ON COMMIT PRESERVE ROWS</code> or <code>ON COMMIT DROP</code>);</li><li>create a procedure or function for initializing a temporary table with a
+pre-existing table as a template;</li><li>in PL/pgSQL code, call this procedure or function at the first using the
+global temporary table.</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>SCHEMA</span> <span style=color:#66d9ef>IF</span> <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>EXISTS</span> gtt_schema;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> gtt_schema.gtt_table_1 (
+</span></span><span style=display:flex><span>  col1 INTEGER,
+</span></span><span style=display:flex><span>  col2 TEXT
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>COMMENT</span> <span style=color:#66d9ef>ON</span> <span style=color:#66d9ef>TABLE</span> gtt_schema.gtt_table_1 <span style=color:#66d9ef>IS</span> <span style=color:#e6db74>&#39;ON COMMIT PRESERVE ROWS&#39;</span>;
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>OR</span> <span style=color:#66d9ef>REPLACE</span> <span style=color:#66d9ef>PROCEDURE</span> prepare_temp_table(p_relname varchar) <span style=color:#66d9ef>AS</span>
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>$$</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>DECLARE</span>
+</span></span><span style=display:flex><span>  v_temp_schema    varchar <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;gtt_schema&#39;</span>;
+</span></span><span style=display:flex><span>  v_temp_desc      varchar;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>-- Reading the comment associated with the table
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  v_temp_desc :<span style=color:#f92672>=</span> pg_catalog.obj_description(
+</span></span><span style=display:flex><span>    (format(<span style=color:#e6db74>&#39;%s.%s&#39;</span>, v_temp_schema, p_relname))::regclass, <span style=color:#e6db74>&#39;pg_class&#39;</span>
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>-- Creating the temporary table
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>EXECUTE</span> format(
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;CREATE TEMP TABLE %2$s (LIKE %1$s.%2$s) %3$s&#39;</span>,
+</span></span><span style=display:flex><span>    v_temp_schema, p_relname,
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>CASE</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>WHEN</span> v_temp_desc <span style=color:#f92672>~*</span> <span style=color:#e6db74>&#39;delete&#39;</span> <span style=color:#66d9ef>THEN</span> <span style=color:#e6db74>&#39;ON COMMIT DELETE ROWS&#39;</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>WHEN</span> v_temp_desc <span style=color:#f92672>~*</span> <span style=color:#e6db74>&#39;drop&#39;</span> <span style=color:#66d9ef>THEN</span> <span style=color:#e6db74>&#39;ON COMMIT DROP&#39;</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>ELSE</span> <span style=color:#e6db74>&#39;ON COMMIT PRESERVE ROWS&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>END</span>
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>-- If the temporary table already exists, empty it
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>EXCEPTION</span> <span style=color:#66d9ef>WHEN</span> <span style=color:#66d9ef>SQLSTATE</span> <span style=color:#e6db74>&#39;42P07&#39;</span> <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>EXECUTE</span> format(<span style=color:#e6db74>&#39;TRUNCATE %s&#39;</span>, p_relname);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>$$</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>LANGUAGE</span> plpgsql;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CALL</span> prepare_temp_table(<span style=color:#e6db74>&#39;gtt_table_1&#39;</span>);
+</span></span></code></pre></div><p>References:</p><ul><li><a href=https://www.postgresql.org/docs/current/sql-createtable.html>CREATE TABLE</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</li></ul><ul class=book-languages-list><li><a href=https://example.com/fr/reprise-des-tables/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Last modified by Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.en/docs/schema/tables.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#table-migration>Table migration</a><ul><li><a href=#virtual-columns>Virtual Columns</a></li><li><a href=#index-organized-tables>Index-Organized Tables</a></li><li><a href=#external-tables>External tables</a></li><li><a href=#global-temporary-tables>Global temporary tables</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>

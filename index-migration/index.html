@@ -1,0 +1,96 @@
+<!doctype html><html lang=en dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Index migration # Only the BTree indexes match between both databases. The other index types from Oracle don&rsquo;t exist in PostgreSQL, but postgreSQL also has some indexes types of its own."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Index migration"><meta property="og:description" content="Index migration # Only the BTree indexes match between both databases. The other index types from Oracle don&rsquo;t exist in PostgreSQL, but postgreSQL also has some indexes types of its own."><meta property="og:type" content="article"><meta property="og:url" content="https://example.com/index-migration/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="From Oracle to PostgreSQL"><title>Index migration</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=fr href=https://example.com/fr/reprise-des-index/ title="Reprise des index"><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/en.search.min.95c92b6d1acfeccbfbe5b5bcabbf661d49ac6c98314c68e7361dc54efea924c2.js integrity="sha256-lckrbRrP7Mv75bW8q79mHUmsbJgxTGjnNh3FTv6pJMI="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/><img src=/images/logo.png alt=Logo><span>From Oracle to PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/general-differences-between-oracle-and-postgresql/>General differences</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle checked>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/porting-the-database-schema-to-postgresql/>Porting database objects</a></label><ul><li><a href=https://example.com/datatypes/>Datatypes</a></li><li><a href=https://example.com/table-migration/>Table migration</a></li><li><a href=https://example.com/views-migration/>Views migration</a></li><li><a href=https://example.com/sequences-migration/>Sequences migration</a></li><li><a href=https://example.com/index-migration/ class=active>Index migration</a></li><li><a href=https://example.com/partitioning/>Partitioning</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/porting-sql-queries/>Porting SQL queries</a></label><ul><li><a href=https://example.com/specificities-on-data-types/>Specificities on Data types</a></li><li><a href=https://example.com/joins/>Joins</a></li><li><a href=https://example.com/conditional-expressions/>Conditional expressions</a></li><li><a href=https://example.com/hierarchical-querying/>Hierarchical querying</a></li><li><a href=https://example.com/transaction-management/>Transaction management</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/pl-sql-to-pl-pgsql-porting/>PL/SQL to PL/pgSQL porting</a></label><ul><li><a href=https://example.com/porting-procedures-and-functions/>Porting procedures and functions</a></li><li><a href=https://example.com/triggers-conversion/>Triggers conversion</a></li><li><a href=https://example.com/control-structures/>Control structures</a></li><li><a href=https://example.com/pl-sql-code-conversion/>PL/SQL code conversion</a></li><li><a href=https://example.com/cursors/>Cursors</a></li><li><a href=https://example.com/pl-sql-specificities/>PL/SQL specificities</a></li><li><a href=https://example.com/oracles-packages/>Oracle's packages</a></li></ul></li><li><a href=https://example.com/contact-us/>Contact us</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Index migration</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#index-migration>Index migration</a><ul><li><a href=#index-on-character-string>Index on character string</a></li><li><a href=#bitmap-index>Bitmap Index</a></li><li><a href=#reverse-index>Reverse index</a></li><li><a href=#non-blocking-index-creation>Non blocking index creation</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=index-migration>Index migration
+<a class=anchor href=#index-migration>#</a></h2><p>Only the BTree indexes match between both databases. The other index types from
+Oracle don&rsquo;t exist in PostgreSQL, but postgreSQL also has some indexes types
+of its own. Anyway, most indexes are BTree, as its the default type in both
+databases.</p><h3 id=index-on-character-string>Index on character string
+<a class=anchor href=#index-on-character-string>#</a></h3><p>When an index is built to improve searches on the <code>LIKE</code> operator on a string type
+column, this index has to be built using the <code>varchar_pattern_ops</code> operator class
+for a varchar column, <code>text_pattern_ops</code> for a text column, or <code>bpchar_pattern_ops</code>
+for a char column. These operator classes are used when the database&rsquo;s collation
+isn&rsquo;t <code>C</code>.</p><p>The operator class has to be added after the target column name in the index
+creation statement:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>INDEX</span> emp2_ename <span style=color:#66d9ef>ON</span> emp2 (ename varchar_pattern_ops);
+</span></span></code></pre></div><p>References:</p><ul><li><a href=http://www.postgresql.org/docs/current/static/indexes-opclass.html>Operator Classes and Operator Families</a></li></ul><h3 id=bitmap-index>Bitmap Index
+<a class=anchor href=#bitmap-index>#</a></h3><p>A bitmap index proposed by Oracle is required when a column stored a few distinct
+values. Bitmap index use a internal array of bits as a physical representation of
+a value in the table. A simple case is biological gender, encoded in an array of
+two bits: one for male, another for female. For each row, a bit is adressed in the
+bitmap index structure. This one provides extrem compactness only if column has
+a few distinct values.</p><p>On-disk bitmap indexes dont exist in PostgreSQL. That can be created in-memory
+from a BTree index if required. BTree indexes are much larger than On-disk bitmap
+indexes, but have a much better concurrency. Another technic involves GIN indexes,
+used by composite data like arrays or hstore columns.</p><p>GIN stands for Generalized Inverted Index. Each possible values are referred as
+keys and rows are stored in their associated key (example <code>gender=F</code>). Each key
+value is stored only once, so a GIN index is very compact for cases where the
+same key appears many times.</p><p>For a gender column, GIN is constructed over two <em>posting lists</em> (female and
+male). Following example shows differences between Btree and GIN indexes in their
+storage:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#75715e>-- Use btree_gin extension to manipulate scalar columns
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>CREATE</span> extension btree_gin;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t1 (name VARCHAR, gender CHAR);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Gender is equally represented
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t1 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> i, <span style=color:#66d9ef>CASE</span> <span style=color:#66d9ef>WHEN</span> i<span style=color:#f92672>%</span><span style=color:#ae81ff>2</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>THEN</span> <span style=color:#e6db74>&#39;F&#39;</span> <span style=color:#66d9ef>ELSE</span> <span style=color:#e6db74>&#39;M&#39;</span> <span style=color:#66d9ef>END</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>100000000</span>) <span style=color:#66d9ef>g</span>(i); 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>INDEX</span> idx_gender_gin <span style=color:#66d9ef>ON</span> t1 <span style=color:#66d9ef>USING</span> gin (sexe);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> pg_size_pretty(pg_table_size(<span style=color:#e6db74>&#39;t1&#39;</span>));
+</span></span><span style=display:flex><span><span style=color:#75715e>--  pg_size_pretty
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- ----------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  4223 MB
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> pg_size_pretty(pg_table_size(<span style=color:#e6db74>&#39;idx_gender_gin&#39;</span>));
+</span></span><span style=display:flex><span><span style=color:#75715e>--  pg_size_pretty 
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- ----------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  102 MB
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> pg_size_pretty(pg_table_size(<span style=color:#e6db74>&#39;idx_gender_btree&#39;</span>));
+</span></span><span style=display:flex><span><span style=color:#75715e>--  pg_size_pretty 
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- ----------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  2142 MB
+</span></span></span></code></pre></div><p>The large work memory is set to store the whole bitmap in memory. If it had been
+smaller, the bitmap would have become “lossy”, meaning that it would only hold
+block numbers, and not records themselves. The sieving through records would have
+required to visit many more blocks.</p><p>GIN provides good compactness and concurrency access and could be used to mimic
+Bitmap Indexes when column&rsquo;s values are few as possible.</p><p>References:</p><ul><li>Article by Hans-Juergen Schoenig:
+<a href=https://www.cybertec-postgresql.com/en/gin-just-an-index-type/>GIN – Just A Kind Of Index</a></li></ul><h3 id=reverse-index>Reverse index
+<a class=anchor href=#reverse-index>#</a></h3><p>Reverse indexes make it possible to optimize searchs such as <code>LIKE '%string'</code>,
+which usually don&rsquo;t benefit from an index. There is no reverse index in PostgreSQL,
+but a trigram index with <code>pg_trgm</code> extension could be used in place.</p><p>The trigram indexes can either use GiST or GIN indexing. GiST is faster for
+Nearest-Neighbor search (called Knn-search in the literature), GIN much faster
+for strict matching, but requires 3 consecutive characters in the pattern (which
+is usually a good idea for fast searchs).</p><p>They can be used for LIKE <code>'%string'</code>, but also for LIKE <code>'%string%'</code>, or
+<code>LIKE '%str%ing%'</code>. GIN indexes are usually a bit bigger and cost more to update
+than a BTree index.</p><p>The <code>pg_trgm</code> extension, though not included in PostgreSQL directly, is distributed
+along with PostgreSQL (postgresql-contrib package) and maintained by PostgreSQL&rsquo;s
+developers themselves.</p><p>This index type is not directly created by Ora2Pg, it has to be performed
+manually.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> EXTENSION pg_trgm;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>INDEX</span> idx_emp_ename_trgm <span style=color:#66d9ef>ON</span> emp <span style=color:#66d9ef>USING</span> gist (ename gist_trgm_ops);
+</span></span><span style=display:flex><span><span style=color:#75715e>--or
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>INDEX</span> idx_emp_ename_trgm <span style=color:#66d9ef>ON</span> emp <span style=color:#66d9ef>USING</span> gin (ename gin_trgm_ops);
+</span></span></code></pre></div><p>The execution plan of a SELET query demonstrates the use of the
+<code>idx_emp_ename_trgm</code> index:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>EXPLAIN</span> <span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> emp <span style=color:#66d9ef>WHERE</span> ename <span style=color:#66d9ef>LIKE</span> <span style=color:#e6db74>&#39;%IN%&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>--                                        QUERY PLAN                                       
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- ----------------------------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  Bitmap Heap Scan on emp  (cost=1442.95..3522.23 rows=32742 width=20)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--    Recheck Cond: ((ename)::text ~~ &#39;%IN%&#39;::text)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--    -&gt;  Bitmap Index Scan on idx_emp_ename_trgm  (cost=0.00..1434.77 rows=32742 width=0)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          Index Cond: ((ename)::text ~~ &#39;%IN%&#39;::text)
+</span></span></span></code></pre></div><p>These trigram indexes can also be used on case-insensitive matching, using <code>ILIKE</code>.</p><p>References:</p><ul><li><a href=https://wiki.postgresql.org/wiki/What%27s_new_in_PostgreSQL_9.1#K-Nearest-Neighbor_Indexing>K-Nearest-Neighbor Indexing</a>, What&rsquo;s new in PostgreSQL 9.1?</li><li><a href=https://www.postgresql.org/docs/current/pgtrgm.html>pg_trgm</a></li></ul><h3 id=non-blocking-index-creation>Non blocking index creation
+<a class=anchor href=#non-blocking-index-creation>#</a></h3><p>PostgreSQL can create index without blocking concurrent modifications on the
+database, using <code>CREATE INDEX CONCURRENTLY</code>. This statement may though
+leave an index to an invalid state if its creation fails. This can happen if
+the index cannot be built, for instance a UNIQUE index that cannot be validated.</p><p>In a same thought, rebuilding an index without blocking is performed with
+<code>REINDEX CONCURRENTLY</code>. Like creation process, an index can be left in invalid
+state.</p><p>References:</p><ul><li><a href=https://www.postgresql.org/docs/current/sql-createindex.html>CREATE INDEX</a></li><li><a href=https://www.postgresql.org/docs/current/sql-reindex.html>REINDEX</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</li></ul><ul class=book-languages-list><li><a href=https://example.com/fr/reprise-des-index/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Last modified by Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.en/docs/schema/indexes.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#index-migration>Index migration</a><ul><li><a href=#index-on-character-string>Index on character string</a></li><li><a href=#bitmap-index>Bitmap Index</a></li><li><a href=#reverse-index>Reverse index</a></li><li><a href=#non-blocking-index-creation>Non blocking index creation</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>

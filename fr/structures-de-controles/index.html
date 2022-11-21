@@ -1,0 +1,122 @@
+<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Structures de contrôles # Les boucles et les différentes structures de contrôles ne nécessitent pas de portage particulier, en dehors des instructions GOTO et FORALL.
+Boucle FOR REVERSE # La boucle FOR ."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Structures de contrôles"><meta property="og:description" content="Structures de contrôles # Les boucles et les différentes structures de contrôles ne nécessitent pas de portage particulier, en dehors des instructions GOTO et FORALL.
+Boucle FOR REVERSE # La boucle FOR ."><meta property="og:type" content="article"><meta property="og:url" content="https://example.com/fr/structures-de-controles/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="Porter Oracle vers PostgreSQL"><title>Structures de contrôles</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=en href=https://example.com/control-structures/ title="Control structures"><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/fr.search.min.5d63b8891e1dc2263e2b13f848788122e3355a2ceb861e5d51f75a06ead1be44.js integrity="sha256-XWO4iR4dwiY+KxP4SHiBIuM1Wizrhh5dUfdaBurRvkQ="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/fr><img src=/images/logo.png alt=Logo><span>Porter Oracle vers PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Rechercher aria-label=Rechercher maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/fr/differences-generales-entre-oracle-et-postgresql/>Différences générales</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/fr/portage-du-schema-de-la-base-de-donnees/>Portage du schéma</a></label><ul><li><a href=https://example.com/fr/correspondance-des-types-de-donnees/>Correspondance des types de données</a></li><li><a href=https://example.com/fr/reprise-des-tables/>Reprise des tables</a></li><li><a href=https://example.com/fr/reprise-des-vues/>Reprise des vues</a></li><li><a href=https://example.com/fr/reprise-des-sequences/>Reprise des séquences</a></li><li><a href=https://example.com/fr/reprise-des-index/>Reprise des index</a></li><li><a href=https://example.com/fr/reprise-des-partitions/>Reprise des partitions</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/fr/portage-des-requetes-sql/>Portage des requêtes SQL</a></label><ul><li><a href=https://example.com/fr/specificites-des-types-de-donnees/>Spécificités des types de données</a></li><li><a href=https://example.com/fr/jointures/>Jointures</a></li><li><a href=https://example.com/fr/expressions-conditionnelles/>Expressions conditionnelles</a></li><li><a href=https://example.com/fr/traitement-des-hierarchies/>Traitement des hiérarchies</a></li><li><a href=https://example.com/fr/gestion-des-transactions/>Gestion des transactions</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle checked>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/fr/portage-du-code-pl-sql-vers-pl-pgsql/>Portage du code PL/SQL vers PL/pgSQL</a></label><ul><li><a href=https://example.com/fr/portage-des-procedures-et-fonctions/>Portage des procédures et fonctions</a></li><li><a href=https://example.com/fr/portage-des-triggers/>Portage des triggers</a></li><li><a href=https://example.com/fr/structures-de-controles/ class=active>Structures de contrôles</a></li><li><a href=https://example.com/fr/reprise-du-code-pl-sql/>Reprise du code PL/SQL</a></li><li><a href=https://example.com/fr/curseurs/>Curseurs</a></li><li><a href=https://example.com/fr/specificites-pl-sql/>Spécificités PL/SQL</a></li><li><a href=https://example.com/fr/packages-proprietaires/>Packages propriétaires</a></li></ul></li><li><a href=https://example.com/fr/nous-contacter/>Nous contacter</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Structures de contrôles</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#structures-de-contrôles>Structures de contrôles</a><ul><li><a href=#boucle-for-reverse>Boucle FOR REVERSE</a></li><li><a href=#instruction-goto>Instruction GOTO</a></li><li><a href=#boucles-forall>Boucles FORALL</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=structures-de-contrôles>Structures de contrôles
+<a class=anchor href=#structures-de-contr%c3%b4les>#</a></h2><p>Les boucles et les différentes structures de contrôles ne nécessitent pas de
+portage particulier, en dehors des instructions <code>GOTO</code> et <code>FORALL</code>.</p><h3 id=boucle-for-reverse>Boucle FOR REVERSE
+<a class=anchor href=#boucle-for-reverse>#</a></h3><p>La boucle <code>FOR ... REVERSE</code> présente également la particularité de devoir inverser
+les bornes <code>min</code> et <code>max</code> dans les boucles <code>FOR ... IN ... REVERSE min..max</code>.</p><p>Le code Oracle est le suivant :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>FOR</span> i <span style=color:#66d9ef>IN</span> REVERSE <span style=color:#ae81ff>1</span>..<span style=color:#ae81ff>10</span> <span style=color:#66d9ef>BY</span> <span style=color:#ae81ff>2</span> LOOP
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> LOOP;
+</span></span></code></pre></div><p>Il devra être modifié de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>FOR</span> i <span style=color:#66d9ef>IN</span> REVERSE <span style=color:#ae81ff>10</span>..<span style=color:#ae81ff>1</span> <span style=color:#66d9ef>BY</span> <span style=color:#ae81ff>2</span> LOOP
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> LOOP;
+</span></span></code></pre></div><p>Une autre différence importante concerne les boucles <code>FOR</code> sur des requêtes
+(autres que des curseurs). Dans le code PL/SQL, sous Oracle, les variables cibles
+sont déclarées implicitement. Pour adapter une telle fonction à PostgreSQL, il
+est nécessaire de déclarer les variables cibles dans le bloc <code>DECLARE</code> de la
+fonction portée. Cela a également pour avantage de laisser cette variable
+accessible à la sortie de la boucle.</p><p>Ainsi, l&rsquo;extrait de code PL/SQL suivant :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>DECLARE</span>
+</span></span><span style=display:flex><span>  v_date1 DATE, v_date2 DATE;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> r <span style=color:#66d9ef>IN</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> numberprgn <span style=color:#66d9ef>FROM</span> t2 
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> status <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;ordered&#39;</span> <span style=color:#66d9ef>AND</span> assigned_dept <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;departt&#39;</span>
+</span></span><span style=display:flex><span>  )
+</span></span><span style=display:flex><span>LOOP
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> <span style=color:#66d9ef>min</span>(datestamp) <span style=color:#66d9ef>INTO</span> v_date1
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> T1 <span style=color:#66d9ef>WHERE</span> NUMBER <span style=color:#f92672>=</span> r.numberprgn  <span style=color:#66d9ef>AND</span> description <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;etat1&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> <span style=color:#66d9ef>min</span>(datestamp) <span style=color:#66d9ef>INTO</span> v_date2
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> T1 <span style=color:#66d9ef>WHERE</span> NUMBER <span style=color:#f92672>=</span> r.numberprgn  <span style=color:#66d9ef>AND</span> description <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;etat2&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> LOOP;
+</span></span></code></pre></div><p>sera porté de la façon suivante, en supposant que les variables <code>v_date1</code> et
+<code>v_date2</code> doivent être portées en type <code>TIMESTAMP</code> :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>DECLARE</span>
+</span></span><span style=display:flex><span>  v_date1 DATE, v_date2 <span style=color:#66d9ef>TIMESTAMP</span>;
+</span></span><span style=display:flex><span>  r record;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> r <span style=color:#66d9ef>IN</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> numberprgn <span style=color:#66d9ef>FROM</span> t2
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>WHERE</span> status <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;ordered&#39;</span> <span style=color:#66d9ef>AND</span> assigned_dept <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;departt&#39;</span>
+</span></span><span style=display:flex><span>  )
+</span></span><span style=display:flex><span>LOOP
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> <span style=color:#66d9ef>min</span>(datestamp) <span style=color:#66d9ef>INTO</span> <span style=color:#66d9ef>STRICT</span> v_date1
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> T1 <span style=color:#66d9ef>WHERE</span> number <span style=color:#f92672>=</span> r.numberprgn  <span style=color:#66d9ef>AND</span> description <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;etat1&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> <span style=color:#66d9ef>min</span>(datestamp) <span style=color:#66d9ef>INTO</span> <span style=color:#66d9ef>STRICT</span> v_date2
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> T1 <span style=color:#66d9ef>WHERE</span> number <span style=color:#f92672>=</span> r.numberprgn  <span style=color:#66d9ef>AND</span> description <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;etat2&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> LOOP;
+</span></span></code></pre></div><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/plpgsql-control-structures.html#plpgsql-integer-for>boucle FOR</a></li><li><a href=https://docs.postgresql.fr/current/plpgsql-porting.html>Portage d&rsquo;Oracle PL/SQL</a></li></ul><h3 id=instruction-goto>Instruction GOTO
+<a class=anchor href=#instruction-goto>#</a></h3><p>L&rsquo;instruction <code>GOTO</code> n&rsquo;a pas d&rsquo;équivalent sous PostgreSQL et nécessite une
+réécriture de code. L&rsquo;usage de cette instruction est souvent déconseillée, mais
+il n&rsquo;est pas rare de la retrouver pour contrôler d&rsquo;exécution d&rsquo;une boucle, par
+exemple pour aller à l&rsquo;itération suivante ou simplement sortir de la boucle.</p><p>Ainsi, le code PL/SQL suivant :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span>LOOP
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FETCH</span> curs_courant <span style=color:#66d9ef>INTO</span> courant;
+</span></span><span style=display:flex><span>  EXIT <span style=color:#66d9ef>WHEN</span> curs_courant<span style=color:#f92672>%</span>NOTFOUND;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> v_cat <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;YYY&#39;</span> <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>GOTO</span> DEBUT;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> courant <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;N1&#39;</span> <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>GOTO</span> FIN;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;&lt;</span>DEBUT<span style=color:#f92672>&gt;&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>NULL</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> LOOP;
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;&lt;</span>FIN<span style=color:#f92672>&gt;&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CLOSE</span> curs_courant;
+</span></span></code></pre></div><p>nécessitera d&rsquo;être réécrit de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span>LOOP
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FETCH</span> curs_courant <span style=color:#66d9ef>INTO</span> courant;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>FOUND</span> <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    EXIT;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> v_cat <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;YYY&#39;</span> <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>CONTINUE</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> courant <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;N1&#39;</span> <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    EXIT;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> LOOP;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CLOSE</span> curs_courant;
+</span></span></code></pre></div><h3 id=boucles-forall>Boucles FORALL
+<a class=anchor href=#boucles-forall>#</a></h3><p>L&rsquo;instruction <code>FORALL</code> n&rsquo;a pas d&rsquo;équivalent dans PostgreSQL. La boucle <code>FORALL</code>,
+utilisée pour parcourir les lignes d&rsquo;une collection sous Oracle, n&rsquo;existe pas non
+plus sous PostgreSQL. Cependant, son implémentation sous PostgreSQL est simple car
+il s&rsquo;agit uniquement de parcourir le tableau de la collection.</p><p>Ainsi, la procédure PL/SQL suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>OR</span> <span style=color:#66d9ef>REPLACE</span> <span style=color:#66d9ef>PROCEDURE</span> allEmployees
+</span></span><span style=display:flex><span><span style=color:#66d9ef>IS</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>TYPE</span> v_array <span style=color:#66d9ef>IS</span> varray(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>OF</span> CHAR(<span style=color:#ae81ff>14</span>);
+</span></span><span style=display:flex><span>  arr_emp v_array;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> ename BULK COLLECT <span style=color:#66d9ef>INTO</span> arr_emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> ename;
+</span></span><span style=display:flex><span>  FORALL i <span style=color:#66d9ef>IN</span> <span style=color:#ae81ff>1</span>..arr_emp.<span style=color:#66d9ef>COUNT</span>
+</span></span><span style=display:flex><span>    dbms_output.put_line(<span style=color:#e6db74>&#39;|name&#39;</span><span style=color:#f92672>||</span>arr_emp..(i)<span style=color:#f92672>||</span><span style=color:#e6db74>&#39;i&#39;</span><span style=color:#f92672>||</span> i);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> allEmployees;
+</span></span></code></pre></div><p>sera réécrite de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>OR</span> <span style=color:#66d9ef>REPLACE</span> <span style=color:#66d9ef>FUNCTION</span> allEmployees()
+</span></span><span style=display:flex><span><span style=color:#66d9ef>RETURNS</span> VOID <span style=color:#66d9ef>AS</span> <span style=color:#960050;background-color:#1e0010>$</span>body$
+</span></span><span style=display:flex><span><span style=color:#66d9ef>DECLARE</span>
+</span></span><span style=display:flex><span>  arr_emp CHAR(<span style=color:#ae81ff>14</span>)[];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  arr_emp :<span style=color:#f92672>=</span> array ( <span style=color:#66d9ef>SELECT</span> ename <span style=color:#66d9ef>FROM</span> emp <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> ename);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> i <span style=color:#66d9ef>IN</span> array_lower(arr_emp,<span style=color:#ae81ff>1</span>)..array_upper(arr_emp,<span style=color:#ae81ff>1</span>) LOOP
+</span></span><span style=display:flex><span>    RAISE NOTICE <span style=color:#e6db74>&#39;|name % i %&#39;</span>, arr_emp[i], i;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> LOOP;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>$</span>body$ <span style=color:#66d9ef>LANGUAGE</span> plpgsql;
+</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</li></ul><ul class=book-languages-list><li><a href=https://example.com/control-structures/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Dernière modification par Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/docs/plsql/controls.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Modifier cette page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#structures-de-contrôles>Structures de contrôles</a><ul><li><a href=#boucle-for-reverse>Boucle FOR REVERSE</a></li><li><a href=#instruction-goto>Instruction GOTO</a></li><li><a href=#boucles-forall>Boucles FORALL</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>

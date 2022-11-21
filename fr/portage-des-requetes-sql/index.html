@@ -1,0 +1,160 @@
+<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Compatibilité des ordres DML # La plupart des ordres DML sont compatibles entre Oracle et PostgreSQL. On peut toutefois noter que l&rsquo;ordre MERGE n&rsquo;existe pas encore dans PostgreSQL. Certaines restrictions s&rsquo;appliquent aussi pour l&rsquo;utilisation de certaines fonctions de fenêtrage (window functions) et des CTEs récursives."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Portage des requêtes SQL"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://example.com/fr/portage-des-requetes-sql/"><meta property="og:site_name" content="Porter Oracle vers PostgreSQL"><title>Portage des requêtes SQL</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=en href=https://example.com/porting-sql-queries/ title="Porting SQL queries"><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/fr.search.min.5d63b8891e1dc2263e2b13f848788122e3355a2ceb861e5d51f75a06ead1be44.js integrity="sha256-XWO4iR4dwiY+KxP4SHiBIuM1Wizrhh5dUfdaBurRvkQ="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script>
+<link rel=alternate type=application/rss+xml href=https://example.com/fr/portage-des-requetes-sql/index.xml title="Porter Oracle vers PostgreSQL"></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/fr><img src=/images/logo.png alt=Logo><span>Porter Oracle vers PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Rechercher aria-label=Rechercher maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/fr/differences-generales-entre-oracle-et-postgresql/>Différences générales</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/fr/portage-du-schema-de-la-base-de-donnees/>Portage du schéma</a></label><ul><li><a href=https://example.com/fr/correspondance-des-types-de-donnees/>Correspondance des types de données</a></li><li><a href=https://example.com/fr/reprise-des-tables/>Reprise des tables</a></li><li><a href=https://example.com/fr/reprise-des-vues/>Reprise des vues</a></li><li><a href=https://example.com/fr/reprise-des-sequences/>Reprise des séquences</a></li><li><a href=https://example.com/fr/reprise-des-index/>Reprise des index</a></li><li><a href=https://example.com/fr/reprise-des-partitions/>Reprise des partitions</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle checked>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/fr/portage-des-requetes-sql/ class=active>Portage des requêtes SQL</a></label><ul><li><a href=https://example.com/fr/specificites-des-types-de-donnees/>Spécificités des types de données</a></li><li><a href=https://example.com/fr/jointures/>Jointures</a></li><li><a href=https://example.com/fr/expressions-conditionnelles/>Expressions conditionnelles</a></li><li><a href=https://example.com/fr/traitement-des-hierarchies/>Traitement des hiérarchies</a></li><li><a href=https://example.com/fr/gestion-des-transactions/>Gestion des transactions</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/fr/portage-du-code-pl-sql-vers-pl-pgsql/>Portage du code PL/SQL vers PL/pgSQL</a></label><ul><li><a href=https://example.com/fr/portage-des-procedures-et-fonctions/>Portage des procédures et fonctions</a></li><li><a href=https://example.com/fr/portage-des-triggers/>Portage des triggers</a></li><li><a href=https://example.com/fr/structures-de-controles/>Structures de contrôles</a></li><li><a href=https://example.com/fr/reprise-du-code-pl-sql/>Reprise du code PL/SQL</a></li><li><a href=https://example.com/fr/curseurs/>Curseurs</a></li><li><a href=https://example.com/fr/specificites-pl-sql/>Spécificités PL/SQL</a></li><li><a href=https://example.com/fr/packages-proprietaires/>Packages propriétaires</a></li></ul></li><li><a href=https://example.com/fr/nous-contacter/>Nous contacter</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Portage des requêtes SQL</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#compatibilité-des-ordres-dml>Compatibilité des ordres DML</a></li><li><a href=#alias-de-sous-requêtes>Alias de sous-requêtes</a></li><li><a href=#conversions-implicites>Conversions implicites</a></li><li><a href=#clauses-having-et-group-by>Clauses HAVING et GROUP BY</a></li><li><a href=#utilisation-de-rowid>Utilisation de ROWID</a></li><li><a href=#portage-de-lopérateur-ensembliste-minus>Portage de l&rsquo;opérateur ensembliste MINUS</a></li><li><a href=#fonctions-de-fenêtrage>Fonctions de fenêtrage</a></li><li><a href=#cte-récursif>CTE récursif</a></li><li><a href=#merge>MERGE</a></li><li><a href=#traitement-des-hints>Traitement des hints</a></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=compatibilité-des-ordres-dml>Compatibilité des ordres DML
+<a class=anchor href=#compatibilit%c3%a9-des-ordres-dml>#</a></h2><p>La plupart des ordres DML sont compatibles entre Oracle et PostgreSQL. On peut
+toutefois noter que l&rsquo;ordre <code>MERGE</code> n&rsquo;existe pas encore dans PostgreSQL.
+Certaines restrictions s&rsquo;appliquent aussi pour l&rsquo;utilisation de certaines
+fonctions de fenêtrage (<em>window functions</em>) et des CTEs récursives.</p><h2 id=alias-de-sous-requêtes>Alias de sous-requêtes
+<a class=anchor href=#alias-de-sous-requ%c3%aates>#</a></h2><p>Oracle ne génère pas de message d&rsquo;erreur lorsqu&rsquo;une sous-requête ne possède pas
+d&rsquo;alias. PostgreSQL retourne une erreur dans ses cas là, ce dernier exige que
+toutes les sous-requêtes disposent d&rsquo;un alias.</p><p>Ainsi la requête Oracle suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> colonnes...
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> (<span style=color:#66d9ef>SELECT</span> ...
+</span></span><span style=display:flex><span>       )
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> predicats
+</span></span></code></pre></div><p>Devra être réécrite en choisissant un alias suffisamment descriptif :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> colonnes...
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> (<span style=color:#66d9ef>SELECT</span> ...
+</span></span><span style=display:flex><span>       ) sousreq1
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> predicats
+</span></span></code></pre></div><h2 id=conversions-implicites>Conversions implicites
+<a class=anchor href=#conversions-implicites>#</a></h2><p>Les conversions implicites de et vers un champ de type texte ont été supprimées
+sous PostgreSQL depuis la version 8.3.</p><p>Par exemple, il n&rsquo;est pas possible de faire ce type de requête :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> depts ( numero CHAR(<span style=color:#ae81ff>2</span>), nom VARCHAR(<span style=color:#ae81ff>25</span>) );
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> depts <span style=color:#66d9ef>WHERE</span> numero <span style=color:#66d9ef>BETWEEN</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>AND</span> <span style=color:#ae81ff>42</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>-- ERROR:  operator does not exist: character &gt;= INTEGER
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- LIGNE 1 : SELECT * FROM depts WHERE numero BETWEEN 0 AND 42;
+</span></span></span></code></pre></div><p>Si l&rsquo;on veut pouvoir faire faire fonctionner cette requête, il faut préciser
+explicitement la conversion à réaliser :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> depts <span style=color:#66d9ef>WHERE</span> numero::INTEGER <span style=color:#66d9ef>BETWEEN</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>AND</span> <span style=color:#ae81ff>42</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>-- ou (respect de la norme SQL)
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> depts <span style=color:#66d9ef>WHERE</span> <span style=color:#66d9ef>CAST</span>(id <span style=color:#66d9ef>AS</span> INTEGER) <span style=color:#66d9ef>BETWEEN</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>AND</span> <span style=color:#ae81ff>42</span>;
+</span></span></code></pre></div><p>Avec Oracle, ce type de conversion est implicite.</p><h2 id=clauses-having-et-group-by>Clauses HAVING et GROUP BY
+<a class=anchor href=#clauses-having-et-group-by>#</a></h2><p>Bien que la documentation Oracle indique que la clause <code>GROUP BY</code> précède la
+clause <code>HAVING</code>, la grammaire Oracle autorise l&rsquo;inverse. Il faut donc corriger
+les requêtes écrites de la façon <code>HAVING ... GROUP BY</code>.</p><p>Les requêtes de la forme suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> test <span style=color:#66d9ef>HAVING</span> <span style=color:#66d9ef>count</span>(<span style=color:#f92672>*</span>) <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>3</span> <span style=color:#66d9ef>GROUP</span> <span style=color:#66d9ef>BY</span> i;
+</span></span></code></pre></div><p>seront transposées de la façon suivante pour pouvoir s&rsquo;exécuter sous PostgreSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> test <span style=color:#66d9ef>GROUP</span> <span style=color:#66d9ef>BY</span> i <span style=color:#66d9ef>HAVING</span> <span style=color:#66d9ef>count</span>(<span style=color:#f92672>*</span>) <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>3</span>;
+</span></span></code></pre></div><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/queries-table-expressions.html#QUERIES-GROUP>Clauses GROUP BY et HAVING</a></li></ul><h2 id=utilisation-de-rowid>Utilisation de ROWID
+<a class=anchor href=#utilisation-de-rowid>#</a></h2><p>Dans de très rares cas, des requêtes SQL utilisent la colonne <code>ROWID</code> d&rsquo;Oracle,
+par exemple pour dédoublonner des enregistrements. Le <code>ROWID</code> est la localisation
+physique d&rsquo;une ligne dans une table. L&rsquo;équivalent dans PostgreSQL est le <code>ctid</code>.</p><p>Plus précisément, le <code>ROWID</code> Oracle représente une adresse logique d&rsquo;une ligne,
+encodée sous la forme <code>OOOOOO.FFF.BBBBBB.RRR</code> où <code>O</code> représente le numéro d&rsquo;objet,
+<code>F</code> le fichier, <code>B</code> le numéro de bloc et <code>R</code> la ligne dans le bloc. Le format est
+différent dans le cas d&rsquo;une table stockée dans un <code>BIG FILE TABLESPACE</code>, mais le
+principe reste identique.</p><p>Quant au <code>ctid</code> de PostgreSQL, il ne représente qu&rsquo;un couple <em>(numéro du bloc,
+numéro de l&rsquo;enregistrement)</em>, aucune autre information de localisation physique
+n&rsquo;est disponible. Le <code>ctid</code> n&rsquo;est donc unique qu&rsquo;au sein d&rsquo;une table. De part
+ce fait, une requête ramenant le <code>ctid</code> des lignes d&rsquo;une table partitionnée peut
+présenter des <code>ctid</code> en doublons. On peut dans ce cas utiliser le champ caché
+<code>tableoid</code> (l&rsquo;identifiant unique de la table dans le catalogue) de chaque table
+pour différencier les doublons par partition.</p><p>Cette méthode d&rsquo;accès est donc à proscrire, sauf opération particulière et cadrée.</p><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/ddl-system-columns.html>Colonnes système de PostgreSQL</a></li></ul><h2 id=portage-de-lopérateur-ensembliste-minus>Portage de l&rsquo;opérateur ensembliste MINUS
+<a class=anchor href=#portage-de-lop%c3%a9rateur-ensembliste-minus>#</a></h2><p>L&rsquo;opérateur ensembliste <code>MINUS</code> est à transposer en <code>EXCEPT</code> pour PostgreSQL.
+Les autres opérateurs ensemblistes <code>UNION</code>, <code>UNION ALL</code> et <code>INSERSECT</code>
+ne nécessitent pas de transposition.</p><p>Ainsi, la requête suivante retourne les produits de l&rsquo;inventaire qui n&rsquo;ont pas fait
+l&rsquo;objet d&rsquo;une commande. Elle est exprimée ainsi pour Oracle :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> product_id <span style=color:#66d9ef>FROM</span> inventories
+</span></span><span style=display:flex><span>MINUS
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> product_id <span style=color:#66d9ef>FROM</span> order_items
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> product_id;
+</span></span></code></pre></div><p>La requête sera transposé de la façon suivante pour PostgreSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> product_id <span style=color:#66d9ef>FROM</span> inventories
+</span></span><span style=display:flex><span><span style=color:#66d9ef>EXCEPT</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> product_id <span style=color:#66d9ef>FROM</span> order_items
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> product_id;
+</span></span></code></pre></div><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/queries-union.html>Opérateurs UNION, INTERSECT et EXCEPT</a></li></ul><h2 id=fonctions-de-fenêtrage>Fonctions de fenêtrage
+<a class=anchor href=#fonctions-de-fen%c3%aatrage>#</a></h2><p>Les clauses permettant d&rsquo;utiliser les fonctions de fenêtrage ne nécessitent que
+peu d&rsquo;adaptations.</p><p>Oracle propose une clause <code>ORDER SIBLINGS BY</code>. Le mot clé <code>SIBLINGS</code> n&rsquo;a pas
+d&rsquo;équivalent et est de toute façon dédié à la manipulation des hiérarchies, donc
+avec <code>CONNECT BY</code>. Une telle requête devra être de toute façon réécrite
+entièrement pour être portée vers PostgreSQL.</p><p>La clause <code>PARTITION BY</code> ne nécessite aucune adaptation, de même que la clause
+de fenêtrage (<code>RANGE ...</code> ou <code>ROWS ...</code>).</p><p>La plupart des fonctions de fenêtrage généralistes d&rsquo;Oracle existent pour PostgreSQL.
+Certaines fonctions n&rsquo;ont malgré tout pas d&rsquo;équivalent pour l&rsquo;instant :</p><ul><li><code>RATIO_TO_REPORT</code> nécessite simplement d&rsquo;utiliser une division sur le résultat
+de la fonction <code>SUM</code> ;</li><li>Le portage de la fonction <code>LISTAGG</code> nécessite une réécriture avec les
+fonctions <code>array_agg</code> et <code>array_to_string</code> de PostgreSQL.</li></ul><p>À noter toutefois que les capacités d&rsquo;extensions de PostgreSQL permettent de
+développer des fonctions d&rsquo;agrégat et des fonctions de fenêtrage, permettant
+ainsi de palier l&rsquo;absence d&rsquo;équivalent de certaines fonctions.</p><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/functions-window.html>Fonctions Window</a></li><li><a href=https://docs.postgresql.fr/current/tutorial-window.html>Tutoriel fonctions Window</a></li><li><a href=https://docs.postgresql.fr/current/sql-expressions.html#syntax-window-functions>Appels de fonctions Window</a></li><li><a href=https://docs.postgresql.fr/current/functions-aggregate.html>Fonctions d&rsquo;agrégat</a></li></ul><h2 id=cte-récursif>CTE récursif
+<a class=anchor href=#cte-r%c3%a9cursif>#</a></h2><p>La grammaire Oracle ne distingue pas une CTE simple d&rsquo;une CTE récursive, au
+contraire de PostgreSQL qui les distingue avec deux syntaxes différentes :
+<code>WITH</code> et <code>WITH RECURSIVE</code>. Il convient donc de corriger les CTE récursives,
+notamment en repérant l&rsquo;opérateur <code>UNION ALL</code> et, au sein d&rsquo;une vue, une
+référence de cette même vue.</p><p>La requête suivante pour Oracle réalise une récursion très simple :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> recursion (a) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>AS</span> a
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> dual
+</span></span><span style=display:flex><span><span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> a <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> recursion
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>WHERE</span> a <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> recursion;
+</span></span></code></pre></div><p>Elle sera réécrite de la façon suivante pour PostgreSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> recursion (a) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>AS</span> a
+</span></span><span style=display:flex><span><span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> a <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> recursion
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>WHERE</span> a <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> recursion;
+</span></span></code></pre></div><p>La clause <code>WITH</code> comprend également des extensions syntaxiques propres à Oracle,
+pour décrire la façon de réaliser la récursion (<em>search_clause</em>) et la détection
+des cycles (<em>cycle_clause</em>). Concernant la détection des cycles, un exemple
+d&rsquo;implémentation est donné dans la partie « 
+<a href=/fr/traitement-des-hierarchies/>Traitement des hiérarchies</a> ».</p><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/sql-select.html>SELECT</a></li><li><a href=https://docs.postgresql.fr/current/queries-with.html#QUERIES-WITH-CYCLE>Détection de cycles</a></li></ul><h2 id=merge>MERGE
+<a class=anchor href=#merge>#</a></h2><p>La requête SQL <code>MERGE</code> permet de faire des insertions ou des mises à jour de
+tables en fonction de l&rsquo;existence préalable ou non des lignes.</p><p>La syntaxe typique de l&rsquo;instruction ressemble à ceci :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span>MERGE <span style=color:#66d9ef>INTO</span> table_destination
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>USING</span> table_source <span style=color:#66d9ef>ON</span> (condition)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> MATCHED <span style=color:#66d9ef>THEN</span> update_clause
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> <span style=color:#66d9ef>NOT</span> MATCHED <span style=color:#66d9ef>THEN</span> insert_clause;
+</span></span></code></pre></div><p>Mais les versions antérieures à PostgreSQL 15 ne supportent pas la syntaxe
+<code>MERGE</code> de la norme SQL. En revanche, on peut émuler cette instruction avec un
+<code>INSERT</code>. Il faut ici distinguer plusieurs cas, en fonction de la présence ou
+non des clauses <code>WHEN MATCHED</code> et <code>WHEN NOT MATCHED</code>.</p><p>S&rsquo;il n&rsquo;y a pas de clause <code>WHEN NOT MATCHED</code>, il s&rsquo;agit d&rsquo;un simple <code>UPDATE</code> :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>UPDATE</span> table_destination
+</span></span><span style=display:flex><span>  update_clause
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>USING</span> table_source
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHERE</span> conditions_de_jointure;
+</span></span></code></pre></div><p>S&rsquo;il n&rsquo;y a pas de clause <code>WHEN MATCHED</code>, il s&rsquo;agit d&rsquo;un <code>INSERT</code> sur les lignes
+qui n&rsquo;existent pas déjà :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> table_destination
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> ... <span style=color:#66d9ef>FROM</span> table_source
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>WHERE</span> conditions_de_jointure
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>ON</span> CONFLICT <span style=color:#66d9ef>DO</span> <span style=color:#66d9ef>NOTHING</span>;
+</span></span></code></pre></div><p>Si les deux clauses <code>WHEN MATCHED</code> et <code>WHEN NOT MATCHED</code> sont présentes, la
+traduction devient :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> table_destination
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> ... <span style=color:#66d9ef>FROM</span> table_source
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>WHERE</span> conditions_de_jointure
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>ON</span> CONFLICT <span style=color:#66d9ef>DO</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>UPDATE</span> update_clause
+</span></span></code></pre></div><p>Quelquefois, sur Oracle, un <code>DELETE WHERE ...</code> est présent après l&rsquo;<code>UPDATE</code> de
+la clause <code>WHEN MATCHED</code>. Dans ce cas, on peut ajouter une simple requête
+<code>DELETE</code> avant ou après l&rsquo;<code>INSERT</code>. On peut aussi mettre ce <code>DELETE</code> à
+l&rsquo;intérieur de l&rsquo;<code>INSERT</code>, sous la forme d&rsquo;une expression de table commune (CTE).</p><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/sql-insert.html#SQL-ON-CONFLICT>Clause ON CONFLICT</a></li></ul><h2 id=traitement-des-hints>Traitement des hints
+<a class=anchor href=#traitement-des-hints>#</a></h2><p>L&rsquo;optimiseur Oracle supporte des <em>hints</em>, qui permettent au DBA de tromper
+l&rsquo;optimiseur pour lui faire prendre des chemins que l&rsquo;optimiseur a jugé trop
+coûteux. Ces <em>hints</em> sont exprimés sous la forme de commentaires et ne seront
+donc pas pris en compte par PostgreSQL, qui ne gère pas ces hints.</p><p>Néanmoins, une requête comportant un <em>hint</em> pour contrôler l&rsquo;optimiseur Oracle
+doit faire l&rsquo;objet d&rsquo;une attention particulière, et l&rsquo;analyse de son plan
+d&rsquo;exécution devra être faite minutieusement, pour s&rsquo;assurer que, sous PostgreSQL,
+la requête n&rsquo;a pas de problème particulier, et agir en conséquence le cas échéant.
+C&rsquo;est notamment vrai lorsque l&rsquo;une des tables mise en œuvre est particulièrement
+volumineuse. Mais, de manière générale, l&rsquo;ensemble des requêtes portées devront
+voir leur plan d&rsquo;exécution vérifié.</p><p>Le plan d&rsquo;exécution de la requête sera vérifiée avec l&rsquo;ordre <code>EXPLAIN ANALYZE</code>
+qui fournit non seulement le plan d&rsquo;exécution en précisant les estimations de
+sélectivité réalisées par l&rsquo;optimiseur, mais va également exécuter la requête
+et fournir la sélectivité réelle de chaque nœud du plan d&rsquo;exécution. Une forte
+divergence entre la sélectivité estimée et réelle permet de détecter un problème.
+Souvent, il s&rsquo;agit d&rsquo;un problème de précision des statistiques. Il est possible
+d&rsquo;agir sur cette précision de plusieurs manières.</p><p>Tout d&rsquo;abord, il est possible d&rsquo;augmenter le nombre d&rsquo;échantillons collectés,
+pour construire notamment les histogrammes. Le paramètre <code>default_statistics_target</code>
+contrôle la précision de cet échantillon. Pour une base de forte volumétrie, ce
+paramètre sera augmenté systématiquement dans une proportion raisonnable. Pour
+une base de volumétrie normale, ce paramètre sera plutôt augmenté en ciblant une
+colonne particulière avec l&rsquo;ordre SQL <code>ALTER TABLE ... ALTER COLUMN ... SET STATISTICS ...;</code>.
+De plus, il est possible de forcer artificiellement le nombre de valeurs distinctes
+d&rsquo;une colonne avec l&rsquo;ordre SQL <code>ALTER TABLE ... SET COLUMN ... SET n_distinct = ...;</code>.
+Il est aussi souvent utile d&rsquo;envisager une réécriture de la requête : si l&rsquo;optimiseur,
+sous Oracle comme sous PostgreSQL, n&rsquo;arrive pas à trouver un bon plan, c&rsquo;est
+probablement qu&rsquo;elle est écrite d&rsquo;une façon qui empêche ce dernier de travailler
+correctement.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</li></ul><ul class=book-languages-list><li><a href=https://example.com/porting-sql-queries/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Dernière modification par Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/docs/sql/_index.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Modifier cette page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#compatibilité-des-ordres-dml>Compatibilité des ordres DML</a></li><li><a href=#alias-de-sous-requêtes>Alias de sous-requêtes</a></li><li><a href=#conversions-implicites>Conversions implicites</a></li><li><a href=#clauses-having-et-group-by>Clauses HAVING et GROUP BY</a></li><li><a href=#utilisation-de-rowid>Utilisation de ROWID</a></li><li><a href=#portage-de-lopérateur-ensembliste-minus>Portage de l&rsquo;opérateur ensembliste MINUS</a></li><li><a href=#fonctions-de-fenêtrage>Fonctions de fenêtrage</a></li><li><a href=#cte-récursif>CTE récursif</a></li><li><a href=#merge>MERGE</a></li><li><a href=#traitement-des-hints>Traitement des hints</a></li></ul></li></ul></nav></div></aside></main></body></html>

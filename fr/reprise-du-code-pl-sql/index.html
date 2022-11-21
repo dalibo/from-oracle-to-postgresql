@@ -1,0 +1,188 @@
+<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Reprise du code PL/SQL # Chaînes vides et valeur NULL # Pour Oracle, une chaîne vide est aussi une valeur NULL. Le SGBD PostgreSQL fait la différence : soit la chaîne est nulle (IS NULL) soit elle est vide."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Reprise du code PL/SQL"><meta property="og:description" content="Reprise du code PL/SQL # Chaînes vides et valeur NULL # Pour Oracle, une chaîne vide est aussi une valeur NULL. Le SGBD PostgreSQL fait la différence : soit la chaîne est nulle (IS NULL) soit elle est vide."><meta property="og:type" content="article"><meta property="og:url" content="https://example.com/fr/reprise-du-code-pl-sql/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="Porter Oracle vers PostgreSQL"><title>Reprise du code PL/SQL</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=en href=https://example.com/pl-sql-code-conversion/ title="PL/SQL code conversion"><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/fr.search.min.5d63b8891e1dc2263e2b13f848788122e3355a2ceb861e5d51f75a06ead1be44.js integrity="sha256-XWO4iR4dwiY+KxP4SHiBIuM1Wizrhh5dUfdaBurRvkQ="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/fr><img src=/images/logo.png alt=Logo><span>Porter Oracle vers PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Rechercher aria-label=Rechercher maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/fr/differences-generales-entre-oracle-et-postgresql/>Différences générales</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/fr/portage-du-schema-de-la-base-de-donnees/>Portage du schéma</a></label><ul><li><a href=https://example.com/fr/correspondance-des-types-de-donnees/>Correspondance des types de données</a></li><li><a href=https://example.com/fr/reprise-des-tables/>Reprise des tables</a></li><li><a href=https://example.com/fr/reprise-des-vues/>Reprise des vues</a></li><li><a href=https://example.com/fr/reprise-des-sequences/>Reprise des séquences</a></li><li><a href=https://example.com/fr/reprise-des-index/>Reprise des index</a></li><li><a href=https://example.com/fr/reprise-des-partitions/>Reprise des partitions</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/fr/portage-des-requetes-sql/>Portage des requêtes SQL</a></label><ul><li><a href=https://example.com/fr/specificites-des-types-de-donnees/>Spécificités des types de données</a></li><li><a href=https://example.com/fr/jointures/>Jointures</a></li><li><a href=https://example.com/fr/expressions-conditionnelles/>Expressions conditionnelles</a></li><li><a href=https://example.com/fr/traitement-des-hierarchies/>Traitement des hiérarchies</a></li><li><a href=https://example.com/fr/gestion-des-transactions/>Gestion des transactions</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle checked>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/fr/portage-du-code-pl-sql-vers-pl-pgsql/>Portage du code PL/SQL vers PL/pgSQL</a></label><ul><li><a href=https://example.com/fr/portage-des-procedures-et-fonctions/>Portage des procédures et fonctions</a></li><li><a href=https://example.com/fr/portage-des-triggers/>Portage des triggers</a></li><li><a href=https://example.com/fr/structures-de-controles/>Structures de contrôles</a></li><li><a href=https://example.com/fr/reprise-du-code-pl-sql/ class=active>Reprise du code PL/SQL</a></li><li><a href=https://example.com/fr/curseurs/>Curseurs</a></li><li><a href=https://example.com/fr/specificites-pl-sql/>Spécificités PL/SQL</a></li><li><a href=https://example.com/fr/packages-proprietaires/>Packages propriétaires</a></li></ul></li><li><a href=https://example.com/fr/nous-contacter/>Nous contacter</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Reprise du code PL/SQL</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#reprise-du-code-plsql>Reprise du code PL/SQL</a><ul><li><a href=#chaînes-vides-et-valeur-null>Chaînes vides et valeur NULL</a></li><li><a href=#exécution-de-requêtes-et-de-fonctions>Exécution de requêtes et de fonctions</a></li><li><a href=#exécution-de-requêtes-dynamiques>Exécution de requêtes dynamiques</a></li><li><a href=#commit-dans-une-routine>COMMIT dans une routine</a></li><li><a href=#gestion-des-exceptions>Gestion des exceptions</a></li><li><a href=#select-into>SELECT INTO</a></li><li><a href=#bulk-collect>BULK COLLECT</a></li><li><a href=#fonction-instr>Fonction instr</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=reprise-du-code-plsql>Reprise du code PL/SQL
+<a class=anchor href=#reprise-du-code-plsql>#</a></h2><h3 id=chaînes-vides-et-valeur-null>Chaînes vides et valeur NULL
+<a class=anchor href=#cha%c3%aenes-vides-et-valeur-null>#</a></h3><p>Pour Oracle, une chaîne vide est aussi une valeur <code>NULL</code>. Le SGBD PostgreSQL
+fait la différence : soit la chaîne est nulle (<code>IS NULL</code>) soit elle est vide.</p><p>Certaines requêtes donnant satisfaction sous Oracle peuvent donner des résultats
+faux lorsqu&rsquo;elles sont portées directement. Les cas les plus courants sont la
+comparaison de la valeur d&rsquo;une colonne avec une chaîne vide et la concaténation
+avec une valeur <code>NULL</code>. Il est nécessaire de se reporter à la partie concernant
+le portage des requêtes pour le traitement de ces deux cas.</p><p>Lorsque l&rsquo;on porte du code PL/SQL en PL/pgSQL, il faut faire attention au code qui
+l&rsquo;appelle, côté applicatif : si le développeur de l&rsquo;application n&rsquo;a pas pris garde
+de migrer les <code>''</code> par des <code>NULL</code>, alors il faut prévoir le cas
+où la fonction reçoit des chaînes vides en lieu et place de la valeur <code>NULL</code>.</p><p>Ainsi, les codes Oracle suivant peuvent poser des problèmes du fait de cette
+confusion entre la chaîne vide et la valeur <code>NULL</code> :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>IF</span> vidtarif <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    ...
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>IF</span> vidtarif <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    ...
+</span></span></code></pre></div><p>Pour Oracle, <code>vidtarif</code> sera <code>NULL</code> si elle est une chaine vide <strong>ou</strong> si
+elle est à <code>NULL</code>, et ce, indifféremment. Si le code appelle une fonction qui
+a ce type de traitement, mais en lui passant des chaînes vides en argument,
+cela fonctionnera avec Oracle.</p><p>Mais il en sera tout autrement avec PostgreSQL. Ce dernier est beaucoup plus
+strict. Il faut donc étendre les tests dans le code migré en PL/pgSQL sous
+PostgreSQL, pour se prémunir de toute écriture non migré dans l&rsquo;application.</p><p>Voici un exemple de portage du premier test donné en exemple plus haut :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>IF</span> COALESCE(vidtarif, <span style=color:#e6db74>&#39;&#39;</span>) <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    ...
+</span></span></code></pre></div><p>Dans cet exemple, si <code>vidtarif</code> est <code>NULL</code>, alors <code>coalesce</code> va choisir la
+valeur suivante, soit la chaine vide <code>''</code>. L&rsquo;égalité sera alors vraie. Et si
+<code>vidtarif</code> est une chaine vide, l&rsquo;égalité sera vraie aussi.</p><p>Concernant le second test <code>IS NOT NULL</code> vu plus haut, son portage est plus subtil :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>IF</span> (vidtarif <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>AND</span> vidtarif <span style=color:#f92672>&lt;&gt;</span> <span style=color:#e6db74>&#39;&#39;</span>)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    ...
+</span></span></code></pre></div><p>Il est également possible d&rsquo;utiliser l&rsquo;astuce suivante en début de fonction, ce
+qui simplifiera grandement l&rsquo;écritures des conditions. Ceci ne s&rsquo;applique pas à
+SQL cependant, uniquement à PL/SQL.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>IF</span> vidtarif <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&#39;</span> <span style=color:#66d9ef>THEN</span> vidtarif :<span style=color:#f92672>=</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>END</span>;
+</span></span></code></pre></div><p>Ora2Pg fait ces conversions de code automatiquement par défaut, la directive
+<code>NULL_EQUAL_EMPTY</code> permet de désactiver ce comportement.</p><h3 id=exécution-de-requêtes-et-de-fonctions>Exécution de requêtes et de fonctions
+<a class=anchor href=#ex%c3%a9cution-de-requ%c3%aates-et-de-fonctions>#</a></h3><p>Lorsqu&rsquo;un <code>SELECT</code> sans clause <code>INTO</code> est présent, il doit être remplacé par
+<code>PERFORM</code>. Cette transformation est également prise en charge par Ora2Pg.</p><p>Ainsi, l&rsquo;extrait suivant d&rsquo;une procédure PL/SQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> ename, sal <span style=color:#66d9ef>FROM</span> EMP
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>WHERE</span> empno<span style=color:#f92672>=</span><span style=color:#ae81ff>7902</span> <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>UPDATE</span>;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span></code></pre></div><p>sera réécrit de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  PERFORM ename, sal <span style=color:#66d9ef>FROM</span> EMP
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>WHERE</span> empno<span style=color:#f92672>=</span><span style=color:#ae81ff>7902</span> <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>UPDATE</span>;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span></code></pre></div><p>Par ailleurs, l&rsquo;instruction <code>EXEC</code> permettant de récupérer le code retour d&rsquo;une
+fonction PL/SQL dans une variable n&rsquo;existe pas dans PostgreSQL. Il faut la réécrire
+en utilisant l&rsquo;instruction <code>SELECT INTO</code>. Cette transformation est prise en charge
+par Ora2Pg.</p><p>Ainsi, l&rsquo;extrait de code PL/SQL ci-dessous :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>EXEC</span> :a :<span style=color:#f92672>=</span> get_version();
+</span></span></code></pre></div><p>sera réécrit de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> get_version() <span style=color:#66d9ef>INTO</span> a;
+</span></span></code></pre></div><h3 id=exécution-de-requêtes-dynamiques>Exécution de requêtes dynamiques
+<a class=anchor href=#ex%c3%a9cution-de-requ%c3%aates-dynamiques>#</a></h3><p>Oracle a un ordre <code>EXECUTE IMMEDIATE</code> pour exécuter une requête construite
+dynamiquement. Dans PostgreSQL, le mot clé <code>IMMEDIATE</code> doit être supprimé car
+il n&rsquo;est pas supporté. En effet, un ordre <code>EXECUTE</code> est toujours réalisé
+immédiatement. Cette transformation est réalisée par Ora2Pg.</p><p>Par ailleurs, il est préférable de modifier la construction de l&rsquo;ordre SQL
+dynamique pour utiliser les fonctions <code>quote_literal</code> et <code>quote_ident</code> de
+PostgreSQL, respectivement pour encadrer les valeurs littérales et les identifiants
+(noms d&rsquo;objets). Cette adaptation permet de se protéger des injections SQL. Elle
+n&rsquo;est pas prise en charge par Ora2Pg.</p><p>Par exemple, l&rsquo;extrait de code SQL suivant :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span>sql_stmt :<span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;UPDATE employees SET salary = salary + :1 WHERE &#39;</span> 
+</span></span><span style=display:flex><span>            <span style=color:#f92672>||</span> v_column <span style=color:#f92672>||</span> <span style=color:#e6db74>&#39; = :2&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>EXECUTE</span> <span style=color:#66d9ef>IMMEDIATE</span> sql_stmt <span style=color:#66d9ef>USING</span> amount, column_value;
+</span></span></code></pre></div><p>devrait être porté de la façon suivante (à noter également, les <code>:</code> remplacés
+par <code>$</code>) :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span>sql_stmt :<span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;UPDATE employees SET salary = salary + $1 WHERE &#39;</span> 
+</span></span><span style=display:flex><span>            <span style=color:#f92672>||</span> quote_literal(v_column) <span style=color:#f92672>||</span> <span style=color:#e6db74>&#39; = $2&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>EXECUTE</span> sql_stmt <span style=color:#66d9ef>USING</span> amount, column_value;
+</span></span></code></pre></div><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/plpgsql-statements.html#plpgsql-statements-executing-dyn>Exécution dynamique de commandes</a></li></ul><h3 id=commit-dans-une-routine>COMMIT dans une routine
+<a class=anchor href=#commit-dans-une-routine>#</a></h3><p>Il n&rsquo;est pas possible de coder des instructions de validation/invalidation de la
+transaction courante, <code>COMMIT</code>/<code>ROLLBACK</code>, dans une fonction ou dans une
+procédure appelée par une fonction.</p><p>Dans ces cas de figure il convient de remonter la gestion de la transaction dans
+du code de niveau supérieur.</p><p>Notons que, de par sa gestion du MVCC, PostgreSQL peut supporter des longues
+transactions plus facilement qu&rsquo;Oracle. Aussi, certaines instructions de COMMIT
+intermédiaires peuvent souvent être purement et simplement supprimées.</p><h3 id=gestion-des-exceptions>Gestion des exceptions
+<a class=anchor href=#gestion-des-exceptions>#</a></h3><p>Le traitement des exceptions diffère quelque peu entre Oracle et PostgreSQL. La
+variable <code>SQLCODE</code> d&rsquo;Oracle est le presque équivalent de <code>SQLSTATE</code> dans
+PostgreSQL. Il est donc nécessaire de transformer <code>SQLCODE</code> en <code>SQLSTATE</code>, ce
+que fait Ora2Pg.</p><p>Oracle et PostgreSQL sont fondamentalement différents dans le traitement des
+exceptions. La différence la plus notable est la façon dont l&rsquo;erreur est gérée.
+Si une erreur est déclenchée dans un bloc PL/SQL, seule l&rsquo;instruction
+déclenchante est annulée. En conséquence, on voit souvent des points de
+sauvegarde déclarés au début du bloc et des instructions <code>ROLLBACK TO SAVEPOINT</code>
+émises dans le bloc d&rsquo;exception.</p><p>Avec PostgreSQL, quand une exception est récupérée par une clause <code>EXCEPTION</code>,
+toutes les modifications de la base de données depuis le bloc <code>BEGIN</code> sont
+automatiquement annulées. C&rsquo;est un point important à prendre en compte quant au
+portage d&rsquo;une fonction ou d&rsquo;une procédure PL/SQL.</p><p>Dans ce cas, des constructions PL/SQL utilisant des <code>SAVEPOINT</code> seront portés
+très simplement en supprimant les instructions de traitements des points de
+reprises.</p><p>Ainsi, le code PL/SQL suivant :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  SAVEPOINT s1;
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>EXCEPTION</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> ... <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>ROLLBACK</span> <span style=color:#66d9ef>TO</span> s1;
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> ... <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>ROLLBACK</span> <span style=color:#66d9ef>TO</span> s1;
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span></code></pre></div><p>sera traduit de la façon suivante en PL/pgSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>EXCEPTION</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> ... <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> ... <span style=color:#66d9ef>THEN</span>
+</span></span><span style=display:flex><span>    ...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span></code></pre></div><p>Le nom de certaines exceptions doit être transposé. Le tableau ci-dessous donne
+les correspondances entre les exceptions Oracle et les exceptions PostgreSQL
+qu&rsquo;il est nécessaire de modifier :</p><table><thead><tr><th>Exception Oracle</th><th>Exception PostgreSQL</th></tr></thead><tbody><tr><td>STORAGE_ERROR</td><td>OUT_OF_MEMORY</td></tr><tr><td>ZERO_DIVIDE</td><td>DIVISION_BY_ZERO</td></tr><tr><td>INVALID_CURSOR</td><td>INVALID_CURSOR_STATE</td></tr><tr><td>dup_val_on_index</td><td>unique_violation</td></tr></tbody></table><p>Enfin, la fonction Oracle <code>raise_application_error</code> doit être transformée en
+<code>RAISE EXCEPTION</code>. Le code Oracle suivant :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span>raise_application_error(
+</span></span><span style=display:flex><span>  <span style=color:#f92672>-</span><span style=color:#ae81ff>20000</span>, 
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;Unable to create a new job: a job is currently running.&#39;</span>
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div><p>doit être transposé de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span>RAISE <span style=color:#66d9ef>EXCEPTION</span> 
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#39;Unable to create a new job: a job is currently running&#39;</span>;
+</span></span></code></pre></div><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/errcodes-appendix.html>Codes d&rsquo;erreurs de PostgreSQL</a></li><li><a href=https://docs.postgresql.fr/current/plpgsql-porting.html#PLPGSQL-PORTING-EXCEPTIONS>Annulation implicite après une exception</a></li></ul><h3 id=select-into>SELECT INTO
+<a class=anchor href=#select-into>#</a></h3><p>L&rsquo;instruction <code>SELECT ... INTO ...</code> nécessite d&rsquo;être adaptée pour qu&rsquo;elle se
+comporte sous PostgreSQL de la même façon qu&rsquo;elle le ferait sous Oracle. En
+effet, la documentation de PostgreSQL indique : « L&rsquo;option <code>STRICT</code> correspond au
+comportement du <code>SELECT INTO</code> d&rsquo;Oracle PL/SQL et des instructions relatives. ».</p><p>Il est donc nécessaire d&rsquo;ajouter le mot clé <code>STRICT</code> après <code>INTO</code> lorsqu&rsquo;une
+exception sur <code>NO_DATA_FOUND</code> ou <code>TOO_MANY_ROWS</code> est traitée dans le même bloc
+de code.</p><p>Ainsi, l&rsquo;extrait suivant d&rsquo;une procédure PL/SQL Oracle :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>   
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> idgroupetarif <span style=color:#66d9ef>INTO</span> vgroupevente
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> groupetarif
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>WHERE</span> classetarif <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;V&#39;</span>
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>AND</span> isdefaut <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>AND</span> ispublic <span style=color:#f92672>=</span> vispublic;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>EXCEPTION</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> NO_DATA_FOUND <span style=color:#66d9ef>THEN</span>    
+</span></span><span style=display:flex><span>    vidartpxvte :<span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;-040&#39;</span>; 
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>RETURN</span> vidartpxvte;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> TOO_MANY_ROWS <span style=color:#66d9ef>THEN</span>    
+</span></span><span style=display:flex><span>    vidartpxvte :<span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;-045&#39;</span>; 
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>RETURN</span> vidartpxvte;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span></code></pre></div><p>doit être migré de la façon suivante pour PostgreSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>   
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> idgroupetarif <span style=color:#66d9ef>INTO</span> <span style=color:#66d9ef>STRICT</span> vgroupevente
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> groupetarif
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>WHERE</span> classetarif <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;V&#39;</span>
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>AND</span> isdefaut <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>AND</span> ispublic <span style=color:#f92672>=</span> vispublic;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>EXCEPTION</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> NO_DATA_FOUND <span style=color:#66d9ef>THEN</span>    
+</span></span><span style=display:flex><span>    vidartpxvte :<span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;-040&#39;</span>; 
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>RETURN</span> vidartpxvte;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>WHEN</span> TOO_MANY_ROWS <span style=color:#66d9ef>THEN</span>    
+</span></span><span style=display:flex><span>    vidartpxvte :<span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;-045&#39;</span>; 
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>RETURN</span> vidartpxvte;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span></code></pre></div><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/plpgsql-statements.html#PLPGSQL-STATEMENTS-SQL-ONEROW>Exécuter une requête avec une seule ligne de résultats</a></li></ul><h3 id=bulk-collect>BULK COLLECT
+<a class=anchor href=#bulk-collect>#</a></h3><p>La notion de <code>BULK COLLECT</code> n&rsquo;existe pas sous PostgreSQL. Cette fonctionnalité
+d&rsquo;Oracle charge le résultat d&rsquo;une requête dans un tableau et permet de parcourir
+ensuite ce tableau.</p><p>Par exemple, ce code Oracle :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>PROCEDURE</span> tousLesAuteurs
+</span></span><span style=display:flex><span><span style=color:#66d9ef>IS</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>TYPE</span> my_array <span style=color:#66d9ef>IS</span> varray(<span style=color:#ae81ff>100</span>) <span style=color:#66d9ef>OF</span> VARCHAR(<span style=color:#ae81ff>25</span>);
+</span></span><span style=display:flex><span>  temp_arr my_array;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> nom BULK COLLECT <span style=color:#66d9ef>INTO</span> temp_arr <span style=color:#66d9ef>FROM</span> auteurs <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> nom;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> i <span style=color:#66d9ef>IN</span> temp_arr.<span style=color:#66d9ef>first</span> .. temp_arr.<span style=color:#66d9ef>last</span> LOOP
+</span></span><span style=display:flex><span>    DBMS_OUTPUT.put_line(i <span style=color:#f92672>||</span> <span style=color:#e6db74>&#39;) nom: &#39;</span> <span style=color:#f92672>||</span> temp_arr..(i));
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> LOOP;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span> tousLesAuteurs;
+</span></span></code></pre></div><p>peut être traduit sous PostgreSQL de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>FUNCTION</span> tousLesAuteurs() <span style=color:#66d9ef>RETURNS</span> VOID 
+</span></span><span style=display:flex><span><span style=color:#66d9ef>AS</span> <span style=color:#960050;background-color:#1e0010>$$</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>DECLARE</span>
+</span></span><span style=display:flex><span>  temp_arr VARCHAR(<span style=color:#ae81ff>25</span>)[];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
+</span></span><span style=display:flex><span>  temp_arr :<span style=color:#f92672>=</span> (<span style=color:#66d9ef>SELECT</span> nom <span style=color:#66d9ef>FROM</span> auteurs <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> nom);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> i <span style=color:#66d9ef>IN</span> array_lower(temp_arr,<span style=color:#ae81ff>1</span>) .. array_upper(temp_arr,<span style=color:#ae81ff>1</span>) LOOP
+</span></span><span style=display:flex><span>    RAISE NOTICE <span style=color:#e6db74>&#39;% ) nom: %&#39;</span>, i,  temp_arr..(i);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> LOOP;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>END</span>;
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>$$</span> <span style=color:#66d9ef>LANGUAGE</span> plpgsql;
+</span></span></code></pre></div><h3 id=fonction-instr>Fonction instr
+<a class=anchor href=#fonction-instr>#</a></h3><p>Oracle propose une fonction <code>instr</code>. La documentation de PostgreSQL propose une
+implémentation en PL/pgSQL équivalente, dans l&rsquo;annexe de la section concernant
+le
+<a href=https://docs.postgresql.fr/current/plpgsql-porting.html#PLPGSQL-PORTING-APPENDIX>portage de PL/SQL vers PL/pgSQL</a>.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</li></ul><ul class=book-languages-list><li><a href=https://example.com/pl-sql-code-conversion/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Dernière modification par Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/docs/plsql/code.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Modifier cette page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#reprise-du-code-plsql>Reprise du code PL/SQL</a><ul><li><a href=#chaînes-vides-et-valeur-null>Chaînes vides et valeur NULL</a></li><li><a href=#exécution-de-requêtes-et-de-fonctions>Exécution de requêtes et de fonctions</a></li><li><a href=#exécution-de-requêtes-dynamiques>Exécution de requêtes dynamiques</a></li><li><a href=#commit-dans-une-routine>COMMIT dans une routine</a></li><li><a href=#gestion-des-exceptions>Gestion des exceptions</a></li><li><a href=#select-into>SELECT INTO</a></li><li><a href=#bulk-collect>BULK COLLECT</a></li><li><a href=#fonction-instr>Fonction instr</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>

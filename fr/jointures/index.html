@@ -1,0 +1,182 @@
+<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Jointures # Le SGBD Oracle supporte la syntaxe normalisée d&rsquo;écriture des jointures seulement depuis la version 9i. Auparavant, les jointures étaient exprimées telle que le définissait la première version de la norme SQL, avec une notation propriétaire pour la gestion des jointures externes."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Jointures"><meta property="og:description" content="Jointures # Le SGBD Oracle supporte la syntaxe normalisée d&rsquo;écriture des jointures seulement depuis la version 9i. Auparavant, les jointures étaient exprimées telle que le définissait la première version de la norme SQL, avec une notation propriétaire pour la gestion des jointures externes."><meta property="og:type" content="article"><meta property="og:url" content="https://example.com/fr/jointures/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="Porter Oracle vers PostgreSQL"><title>Jointures</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=en href=https://example.com/joins/ title=Joins><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/fr.search.min.5d63b8891e1dc2263e2b13f848788122e3355a2ceb861e5d51f75a06ead1be44.js integrity="sha256-XWO4iR4dwiY+KxP4SHiBIuM1Wizrhh5dUfdaBurRvkQ="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/fr><img src=/images/logo.png alt=Logo><span>Porter Oracle vers PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Rechercher aria-label=Rechercher maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/fr/differences-generales-entre-oracle-et-postgresql/>Différences générales</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/fr/portage-du-schema-de-la-base-de-donnees/>Portage du schéma</a></label><ul><li><a href=https://example.com/fr/correspondance-des-types-de-donnees/>Correspondance des types de données</a></li><li><a href=https://example.com/fr/reprise-des-tables/>Reprise des tables</a></li><li><a href=https://example.com/fr/reprise-des-vues/>Reprise des vues</a></li><li><a href=https://example.com/fr/reprise-des-sequences/>Reprise des séquences</a></li><li><a href=https://example.com/fr/reprise-des-index/>Reprise des index</a></li><li><a href=https://example.com/fr/reprise-des-partitions/>Reprise des partitions</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle checked>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/fr/portage-des-requetes-sql/>Portage des requêtes SQL</a></label><ul><li><a href=https://example.com/fr/specificites-des-types-de-donnees/>Spécificités des types de données</a></li><li><a href=https://example.com/fr/jointures/ class=active>Jointures</a></li><li><a href=https://example.com/fr/expressions-conditionnelles/>Expressions conditionnelles</a></li><li><a href=https://example.com/fr/traitement-des-hierarchies/>Traitement des hiérarchies</a></li><li><a href=https://example.com/fr/gestion-des-transactions/>Gestion des transactions</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/fr/portage-du-code-pl-sql-vers-pl-pgsql/>Portage du code PL/SQL vers PL/pgSQL</a></label><ul><li><a href=https://example.com/fr/portage-des-procedures-et-fonctions/>Portage des procédures et fonctions</a></li><li><a href=https://example.com/fr/portage-des-triggers/>Portage des triggers</a></li><li><a href=https://example.com/fr/structures-de-controles/>Structures de contrôles</a></li><li><a href=https://example.com/fr/reprise-du-code-pl-sql/>Reprise du code PL/SQL</a></li><li><a href=https://example.com/fr/curseurs/>Curseurs</a></li><li><a href=https://example.com/fr/specificites-pl-sql/>Spécificités PL/SQL</a></li><li><a href=https://example.com/fr/packages-proprietaires/>Packages propriétaires</a></li></ul></li><li><a href=https://example.com/fr/nous-contacter/>Nous contacter</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Jointures</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#jointures>Jointures</a><ul><li><a href=#jointure-simple>Jointure simple</a></li><li><a href=#jointure-externe-à-gauche-et-à-droite>Jointure externe à gauche et à droite</a></li><li><a href=#jointure-externe-complète>Jointure externe complète</a></li><li><a href=#mélange-de-syntaxes-de-jointure>Mélange de syntaxes de jointure</a></li><li><a href=#produit-cartésien>Produit cartésien</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=jointures>Jointures
+<a class=anchor href=#jointures>#</a></h2><p>Le SGBD Oracle supporte la syntaxe normalisée d&rsquo;écriture des jointures seulement
+depuis la version 9i. Auparavant, les jointures étaient exprimées telle que le
+définissait la première version de la norme SQL, avec une notation propriétaire
+pour la gestion des jointures externes. PostgreSQL ne supporte pas cette notation
+propriétaire, mais supporte parfaitement la notation portée par la norme SQL.</p><h3 id=jointure-simple>Jointure simple
+<a class=anchor href=#jointure-simple>#</a></h3><p>La requête suivante peut être conservée telle qu&rsquo;elle est écrite :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1, t2
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> t1.col1 <span style=color:#f92672>=</span> t2.col1
+</span></span></code></pre></div><p>Cependant, cette syntaxe ne permet pas d&rsquo;écrire de jointure externe. Il est donc
+recommandé d&rsquo;utiliser systématiquement la nouvelle notation, qui est aussi bien
+plus lisible dans le cas où des jointures simples et externes sont mélangées :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-SQL data-lang=SQL><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>JOIN</span> t2 <span style=color:#66d9ef>ON</span> (t1.col1 <span style=color:#f92672>=</span> t2.col1)
+</span></span></code></pre></div><h3 id=jointure-externe-à-gauche-et-à-droite>Jointure externe à gauche et à droite
+<a class=anchor href=#jointure-externe-%c3%a0-gauche-et-%c3%a0-droite>#</a></h3><p>Le SGBD Oracle utilise la notation <code>(+)</code> pour décrire le côté où se trouvent
+les valeurs NULL. Pour une jointure à gauche, l&rsquo;annotation <code>(+)</code> serait placée
+du côté droit (et inversement pour une jointure à droite). Cette forme n&rsquo;est pas
+supportée par PostgreSQL. Il faut donc réécrire les jointures avec la notation
+normalisée : <code>LEFT OUTER JOIN</code> ou <code>LEFT JOIN</code> pour une jointure à gauche et
+<code>RIGHT OUTER JOIN</code> ou <code>RIGHT JOIN</code> pour une jointure à droite.</p><p>La requête suivante, écrite pour Oracle et qui comporte une jointure à gauche :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1, t2
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> t1.col1 <span style=color:#f92672>=</span> t2.col3 (<span style=color:#f92672>+</span>);
+</span></span></code></pre></div><p>nécessite d&rsquo;être réécrite de la manière suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>LEFT</span> <span style=color:#66d9ef>JOIN</span> t2 <span style=color:#66d9ef>ON</span> (t1.col1 <span style=color:#f92672>=</span> t2.col3);
+</span></span></code></pre></div><p>De la même façon, la requête suivante comporte une jointure à droite :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1, t2
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> t1.col1 (<span style=color:#f92672>+</span>) <span style=color:#f92672>=</span> t2.col3;
+</span></span></code></pre></div><p>et nécessite d&rsquo;être réécrite de la manière suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>RIGHT</span> <span style=color:#66d9ef>JOIN</span> t2 <span style=color:#66d9ef>ON</span> (t1.col1 <span style=color:#f92672>=</span> t2.col3);
+</span></span></code></pre></div><h3 id=jointure-externe-complète>Jointure externe complète
+<a class=anchor href=#jointure-externe-compl%c3%a8te>#</a></h3><p>Dans les versions précédant la version 9i d&rsquo;Oracle, une jointure externe complète
+(<code>FULL OUTER JOIN</code>) devait être exprimée à l&rsquo;aide d&rsquo;un <code>UNION</code> entre une
+jointure à gauche et une jointure à droite. L&rsquo;exemple suivant implémente une
+jointure externe complète :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1, t2
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> t1.col1 <span style=color:#f92672>=</span> t2.col3 (<span style=color:#f92672>+</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1, t2
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> t1.col1 (<span style=color:#f92672>+</span>) <span style=color:#f92672>=</span> t2.col3
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>AND</span> t1.col <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span></code></pre></div><p>Cette requête doit être réécrite et sera par ailleurs simplifiée de la façon
+suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FULL</span> <span style=color:#66d9ef>OUTER</span> <span style=color:#66d9ef>JOIN</span> t2 <span style=color:#66d9ef>ON</span> (t1.col1 <span style=color:#f92672>=</span> t2.col3);
+</span></span></code></pre></div><h3 id=mélange-de-syntaxes-de-jointure>Mélange de syntaxes de jointure
+<a class=anchor href=#m%c3%a9lange-de-syntaxes-de-jointure>#</a></h3><p>Lors d&rsquo;un portage d&rsquo;Oracle vers Postgres, il est tentant de ne migrer que les
+jointures externes, et de garder les autres à l&rsquo;ancienne syntaxe, pour limiter
+l&rsquo;effort de réécriture.</p><p>C&rsquo;est à déconseiller : sur des requêtes complexes, impliquant de nombreuses
+tables, l&rsquo;optimiseur risque d&rsquo;avoir du mal à calculer un plan d&rsquo;exécution optimal,
+le contenu de la clause <code>WHERE</code> n&rsquo;étant pas forcément réinjecté en tant que jointure.</p><p>Ceci est contrôlé par le paramètre <code>from_collapse_limit</code> de l&rsquo;optimiseur.
+Il indique la profondeur maximale à laquelle l&rsquo;optimiseur va essayer de réordonner
+les jointures du <code>WHERE</code>. Il est par défaut à 8, ce qui est la plupart du temps
+une valeur raisonnable. L&rsquo;augmenter a évidemment un gros impact sur le temps de
+planification des requêtes.</p><p>Voici un exemple très simplifié, dans lequel nous allons forcer
+<code>from_collapse_limit</code> à 2 pour que le problème se produise sur une requête
+simple :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t1(a INT, b INT);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2(b INT, <span style=color:#66d9ef>c</span> INT);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3(<span style=color:#66d9ef>c</span> INT, d INT);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4(d INT, e INT);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t1 <span style=color:#66d9ef>SELECT</span> generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>), generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t2 <span style=color:#66d9ef>SELECT</span> generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>), generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t3 <span style=color:#66d9ef>SELECT</span> generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>), generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t4 <span style=color:#66d9ef>SELECT</span> generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>), generate_series(<span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>1000000</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> t4 <span style=color:#66d9ef>add</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> (a);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> t1 <span style=color:#66d9ef>add</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> (a);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> t2 <span style=color:#66d9ef>add</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> (b);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> t3 <span style=color:#66d9ef>add</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> (<span style=color:#66d9ef>c</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> t4 <span style=color:#66d9ef>add</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span> (d);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Les statistiques sont maintenant à jour
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>analyze</span>; 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- 4 tables sont impliquées, mais on n&#39;autorise qu&#39;une profondeur de 2 à l&#39;optimiseur
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>set</span> from_collapse_limit <span style=color:#66d9ef>TO</span> <span style=color:#ae81ff>2</span>; 
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#75715e>-- Jointure « moderne »
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>EXPLAIN</span> <span style=color:#66d9ef>ANALYZE</span> 
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>JOIN</span> t2 <span style=color:#66d9ef>USING</span> (b) 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>JOIN</span> t3 <span style=color:#66d9ef>USING</span> (<span style=color:#66d9ef>c</span>) 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>LEFT</span> <span style=color:#66d9ef>JOIN</span> t4 <span style=color:#66d9ef>USING</span> (d) 
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> t1.a <span style=color:#66d9ef>between</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>AND</span> <span style=color:#ae81ff>100</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>--                          QUERY PLAN                                      
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- -------------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  Nested Loop Left Join
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  (cost=1.70..1271.91 rows=101 width=20)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  (actual time=0.113..4.607 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--    -&gt;  Nested Loop
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (cost=1.27..1064.28 rows=101 width=16)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (actual time=0.097..3.129 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          -&gt;  Nested Loop
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (cost=0.85..856.40 rows=101 width=12)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (actual time=0.081..1.669 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                -&gt;  Index Scan using t1_pkey on t1
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (cost=0.42..10.45 rows=101 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (actual time=0.057..0.163 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                      Index Cond: ((a &gt;= 1) AND (a &lt;= 100))
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                -&gt;  Index Scan using t2_pkey on t2
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (cost=0.42..8.37 rows=1 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (actual time=0.011..0.012 rows=1 loops=100)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                      Index Cond: (b = t1.b)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          -&gt;  Index Scan using t3_pkey on t3
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (cost=0.42..2.05 rows=1 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (actual time=0.011..0.012 rows=1 loops=100)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                Index Cond: (c = t2.c)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--    -&gt;  Index Scan using t4_pkey on t4
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (cost=0.42..2.05 rows=1 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (actual time=0.011..0.012 rows=1 loops=100)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          Index Cond: (t3.d = d)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  Total runtime: 4.815 ms
+</span></span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#75715e>-- Mélange de jointures « modernes » pour les jointures externes et de 
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- jointures SQL89 pour les jointures internes
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>EXPLAIN</span> <span style=color:#66d9ef>ANALYZE</span> 
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1,t2,t3 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>LEFT</span> <span style=color:#66d9ef>JOIN</span> t4 <span style=color:#66d9ef>USING</span> (d) 
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> t1.b<span style=color:#f92672>=</span>t2.b <span style=color:#66d9ef>AND</span> t2.<span style=color:#66d9ef>c</span><span style=color:#f92672>=</span>t3.<span style=color:#66d9ef>c</span> 
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>AND</span> t1.a <span style=color:#66d9ef>BETWEEN</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>AND</span> <span style=color:#ae81ff>100</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>--                          QUERY PLAN                                      
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- -------------------------------------------------------------------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  Hash Join
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  (cost=31689.66..79086.67 rows=101 width=28)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  (actual time=711.708..2369.201 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--    Hash Cond: (t3.c = t2.c)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--    -&gt;  Hash Left Join
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (cost=30832.00..74478.00 rows=1000000 width=12)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (actual time=711.170..2217.581 rows=1000000 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          Hash Cond: (t3.d = t4.d)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          -&gt;  Seq Scan on t3
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (cost=0.00..14425.00 rows=1000000 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (actual time=0.007..266.867 rows=1000000 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          -&gt;  Hash
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (cost=14425.00..14425.00 rows=1000000 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (actual time=710.802..710.802 rows=1000000 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                Buckets: 131072  Batches: 2  Memory Usage: 19548kB
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                -&gt;  Seq Scan on t4
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (cost=0.00..14425.00 rows=1000000 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (actual time=0.010..297.606 rows=1000000 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--    -&gt;  Hash
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (cost=856.40..856.40 rows=101 width=16)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--        (actual time=0.511..0.511 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          Buckets: 1024  Batches: 1  Memory Usage: 5kB
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--          -&gt;  Nested Loop
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (cost=0.85..856.40 rows=101 width=16)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--              (actual time=0.025..0.459 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                -&gt;  Index Scan using t1_pkey on t1
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (cost=0.42..10.45 rows=101 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (actual time=0.017..0.046 rows=100 loops=1)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                      Index Cond: ((a &gt;= 1) AND (a &lt;= 100))
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                -&gt;  Index Scan using t2_pkey on t2
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (cost=0.42..8.37 rows=1 width=8)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                    (actual time=0.003..0.003 rows=1 loops=100)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--                      Index Cond: (b = t1.b)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>--  Total runtime: 2370.090 ms
+</span></span></span></code></pre></div><p>Avec <code>from_collapse_limit</code> à 8, le problème ne se produit évidemment pas sur
+cette requête. Toutefois, il est plus sûr de réaliser la correction systématiquement
+sur toutes les requêtes que de compter le nombre de tables impliquées. Le problème
+est aussi bien plus dur à diagnostiquer sur une requête complexe faisant usage
+de sous-requêtes, par exemple.</p><h3 id=produit-cartésien>Produit cartésien
+<a class=anchor href=#produit-cart%c3%a9sien>#</a></h3><p>Un produit cartésien peut être exprimé de la façon suivante dans Oracle et
+PostgreSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1, t2;
+</span></span></code></pre></div><p>Néanmoins, la notation normalisée est moins ambigüe et montre clairement
+l&rsquo;intention de faire un produit cartésien :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> t1
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>CROSS</span> <span style=color:#66d9ef>JOIN</span> t2;
+</span></span></code></pre></div><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/queries-table-expressions.html>Expressions de tables</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</li></ul><ul class=book-languages-list><li><a href=https://example.com/joins/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Dernière modification par Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/docs/sql/joins.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Modifier cette page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#jointures>Jointures</a><ul><li><a href=#jointure-simple>Jointure simple</a></li><li><a href=#jointure-externe-à-gauche-et-à-droite>Jointure externe à gauche et à droite</a></li><li><a href=#jointure-externe-complète>Jointure externe complète</a></li><li><a href=#mélange-de-syntaxes-de-jointure>Mélange de syntaxes de jointure</a></li><li><a href=#produit-cartésien>Produit cartésien</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>

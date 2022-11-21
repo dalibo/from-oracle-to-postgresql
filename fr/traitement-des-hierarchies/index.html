@@ -1,0 +1,227 @@
+<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Traitement des hiérarchies # Oracle propose la fonction CONNECT BY qui permet d&rsquo;explorer un arbre hiérarchique. Cette fonction spécifique à Oracle possède des fonctionnalités avancées comme la détection de cycle et propose des pseudos-colonnes comme le niveau de la hiérarchie et la construction d&rsquo;un chemin."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Traitement des hiérarchies"><meta property="og:description" content="Traitement des hiérarchies # Oracle propose la fonction CONNECT BY qui permet d&rsquo;explorer un arbre hiérarchique. Cette fonction spécifique à Oracle possède des fonctionnalités avancées comme la détection de cycle et propose des pseudos-colonnes comme le niveau de la hiérarchie et la construction d&rsquo;un chemin."><meta property="og:type" content="article"><meta property="og:url" content="https://example.com/fr/traitement-des-hierarchies/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="Porter Oracle vers PostgreSQL"><title>Traitement des hiérarchies</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=en href=https://example.com/hierarchical-querying/ title="Hierarchical querying"><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/fr.search.min.5d63b8891e1dc2263e2b13f848788122e3355a2ceb861e5d51f75a06ead1be44.js integrity="sha256-XWO4iR4dwiY+KxP4SHiBIuM1Wizrhh5dUfdaBurRvkQ="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/fr><img src=/images/logo.png alt=Logo><span>Porter Oracle vers PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Rechercher aria-label=Rechercher maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/fr/differences-generales-entre-oracle-et-postgresql/>Différences générales</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/fr/portage-du-schema-de-la-base-de-donnees/>Portage du schéma</a></label><ul><li><a href=https://example.com/fr/correspondance-des-types-de-donnees/>Correspondance des types de données</a></li><li><a href=https://example.com/fr/reprise-des-tables/>Reprise des tables</a></li><li><a href=https://example.com/fr/reprise-des-vues/>Reprise des vues</a></li><li><a href=https://example.com/fr/reprise-des-sequences/>Reprise des séquences</a></li><li><a href=https://example.com/fr/reprise-des-index/>Reprise des index</a></li><li><a href=https://example.com/fr/reprise-des-partitions/>Reprise des partitions</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle checked>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/fr/portage-des-requetes-sql/>Portage des requêtes SQL</a></label><ul><li><a href=https://example.com/fr/specificites-des-types-de-donnees/>Spécificités des types de données</a></li><li><a href=https://example.com/fr/jointures/>Jointures</a></li><li><a href=https://example.com/fr/expressions-conditionnelles/>Expressions conditionnelles</a></li><li><a href=https://example.com/fr/traitement-des-hierarchies/ class=active>Traitement des hiérarchies</a></li><li><a href=https://example.com/fr/gestion-des-transactions/>Gestion des transactions</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/fr/portage-du-code-pl-sql-vers-pl-pgsql/>Portage du code PL/SQL vers PL/pgSQL</a></label><ul><li><a href=https://example.com/fr/portage-des-procedures-et-fonctions/>Portage des procédures et fonctions</a></li><li><a href=https://example.com/fr/portage-des-triggers/>Portage des triggers</a></li><li><a href=https://example.com/fr/structures-de-controles/>Structures de contrôles</a></li><li><a href=https://example.com/fr/reprise-du-code-pl-sql/>Reprise du code PL/SQL</a></li><li><a href=https://example.com/fr/curseurs/>Curseurs</a></li><li><a href=https://example.com/fr/specificites-pl-sql/>Spécificités PL/SQL</a></li><li><a href=https://example.com/fr/packages-proprietaires/>Packages propriétaires</a></li></ul></li><li><a href=https://example.com/fr/nous-contacter/>Nous contacter</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Traitement des hiérarchies</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#traitement-des-hiérarchies>Traitement des hiérarchies</a><ul><li><a href=#connect-by>CONNECT BY</a></li><li><a href=#pseudo-colonne-level>Pseudo-colonne LEVEL</a></li><li><a href=#clause-sys_connect_by_path>Clause SYS_CONNECT_BY_PATH</a></li><li><a href=#clause-nocycle>Clause NOCYCLE</a></li><li><a href=#clause-connect_by_is_cycle>Clause CONNECT_BY_IS_CYCLE</a></li><li><a href=#clause-order-siblings-by>Clause ORDER SIBLINGS BY</a></li><li><a href=#clause-connect_by_root>Clause CONNECT_BY_ROOT</a></li><li><a href=#clause-connect_by_isleaf>Clause CONNECT_BY_ISLEAF</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=traitement-des-hiérarchies>Traitement des hiérarchies
+<a class=anchor href=#traitement-des-hi%c3%a9rarchies>#</a></h2><p>Oracle propose la fonction <code>CONNECT BY</code> qui permet d&rsquo;explorer un arbre
+hiérarchique. Cette fonction spécifique à Oracle possède des fonctionnalités
+avancées comme la détection de cycle et propose des pseudos-colonnes comme le
+niveau de la hiérarchie et la construction d&rsquo;un chemin.</p><p>Depuis la version 14 de PostgreSQL, il est possible de porter de nouvelles
+fonctionnalités avancées. Pour les versions antérieurs, un travail important de
+portage doit être réalisé pour porter les requêtes utilisant cette clause.</p><h3 id=connect-by>CONNECT BY
+<a class=anchor href=#connect-by>#</a></h3><p>Soit la requête SQL suivante qui explore la hiérarchie de la table <code>emp</code>. La
+colonne <code>mgr</code> de cette table désigne le responsable hiérarchique d&rsquo;un employé.
+Si elle vaut NULL, alors la personne est au sommet de la hiérarchie (<code>START WITH mgr IS NULL</code>). Le lien avec l&rsquo;employé et son responsable hiérarchique est
+construit avec la clause <code>CONNECT BY PRIOR empno = mgr</code> qui indique que la
+valeur de la colonne <code>mgr</code> correspond à l&rsquo;identifiant <code>empno</code> du niveau de
+hiérarchie précédent.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>START</span> <span style=color:#66d9ef>WITH</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>CONNECT</span> <span style=color:#66d9ef>BY</span> <span style=color:#66d9ef>PRIOR</span> empno <span style=color:#f92672>=</span> mgr
+</span></span></code></pre></div><p>Le portage de cette requête est réalisé à l&rsquo;aide d&rsquo;une requête récursive (<code>WITH RECURSIVE</code>). La récursion est initialisée dans une première requête qui récupère
+les lignes qui correspondent à la condition de la clause <code>START WITH</code> de la
+requête précédente : <code>mgr IS NULL</code>. La récursion continue ensuite avec la
+requête suivante qui réalise une jointure entre la table <code>emp</code> et la vue
+virtuelle <code>emp_hierarchy</code> qui est définie par la clause <code>WITH RECURSIVE</code>. La
+condition de jointure correspond à la clause <code>CONNECT BY</code>. La vue virtuelle
+<code>emp_hierarchy</code> a pour alias <code>prior</code> pour mieux représenter la transposition de
+la clause <code>CONNECT BY</code>.</p><p>La requête récursive pour PostgreSQL serait alors écrite de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> emp_hierarchy;
+</span></span></code></pre></div><p>Il faudra néanmoins faire attention à l&rsquo;ordre des lignes qui sera différent avec
+la requête <code>WITH RECURSIVE</code>. En effet, Oracle utilise un algorithme
+<em>depth-first</em> dans son implémentation du <code>CONNECT BY</code>. Ainsi, il explorera
+d&rsquo;abord chaque branche avant de passer à la suivante. L&rsquo;implémentation <code>WITH RECURSIVE</code> est de type <em>breadth-first</em> qui explore chaque niveau de hiérarchie
+avant de descendre.</p><p>Il est possible de retrouver l&rsquo;ordre de tri d&rsquo;une requête <code>CONNECT BY</code> pour une
+version antérieure à la 11g d&rsquo;Oracle en triant sur une colonne <code>path</code>, telle
+qu&rsquo;elle est construite pour émuler la clause <code>SYS_CONNECT_BY_PATH</code> :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, path) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, ARRAY[ename::TEXT] <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, 
+</span></span><span style=display:flex><span>         <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> emp.ename::TEXT <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job <span style=color:#66d9ef>FROM</span> emp_hierarchy <span style=color:#66d9ef>AS</span> emp
+</span></span><span style=display:flex><span><span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> path;
+</span></span></code></pre></div><p>À partir de la version 11g, Oracle retourne les résultats dans un ordre
+différent.</p><h3 id=pseudo-colonne-level>Pseudo-colonne LEVEL
+<a class=anchor href=#pseudo-colonne-level>#</a></h3><p>La clause <code>LEVEL</code> permet d&rsquo;obtenir le niveau de hiérarchie d&rsquo;un élément.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, <span style=color:#66d9ef>level</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>START</span> <span style=color:#66d9ef>WITH</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>CONNECT</span> <span style=color:#66d9ef>BY</span> <span style=color:#66d9ef>PRIOR</span> empno <span style=color:#f92672>=</span> mgr
+</span></span></code></pre></div><p>Le portage de la clause <code>LEVEL</code> est facile. La requête d&rsquo;initialisation de la
+récursion initialise la colonne <code>level</code> à 1. La requête de récursion effectue
+ensuite une incrémentation de cette colonne pour chaque niveau de hiérarchie
+exploré :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, <span style=color:#66d9ef>level</span>) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>AS</span> <span style=color:#66d9ef>level</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, <span style=color:#66d9ef>prior</span>.<span style=color:#66d9ef>level</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> emp_hierarchy;
+</span></span></code></pre></div><h3 id=clause-sys_connect_by_path>Clause SYS_CONNECT_BY_PATH
+<a class=anchor href=#clause-sys_connect_by_path>#</a></h3><p>La clause <code>SYS_CONNECT_BY_PATH</code> permet d&rsquo;obtenir un chemin où chaque élément est
+séparé de l&rsquo;autre par un caractère donné. Par exemple, la requête suivante
+indique qui sont les différents responsables d&rsquo;un employé de cette façon :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, SYS_CONNECT_BY_PATH(ename, <span style=color:#e6db74>&#39;/&#39;</span>) <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>START</span> <span style=color:#66d9ef>WITH</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>CONNECT</span> <span style=color:#66d9ef>BY</span> <span style=color:#66d9ef>PRIOR</span> empno <span style=color:#f92672>=</span> mgr;
+</span></span></code></pre></div><p>Le portage de la clause <code>SYS_CONNECT_BY_PATH</code> est également assez facile. La
+requête d&rsquo;initialisation de la récursion construit l&rsquo;élément racine : <code>'/' || ename AS path</code>. La requête de récursion réalise quant à elle une concaténation
+entre le <code>path</code> récupéré de la précédente itération et l&rsquo;élément à concaténé :
+<code>prior.path || '/' || emp.ename</code> :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, path) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, <span style=color:#e6db74>&#39;/&#39;</span> <span style=color:#f92672>||</span> ename <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, 
+</span></span><span style=display:flex><span>           <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> <span style=color:#e6db74>&#39;/&#39;</span> <span style=color:#f92672>||</span> emp.ename
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> emp_hierarchy;
+</span></span></code></pre></div><p>Une autre façon de faire est d&rsquo;utiliser un tableau pour stocker le chemin le
+temps de la récursion, puis de construire la représentation textuelle de ces
+chemins au moment de la sortie des résultats. À noter la conversion de la valeur
+de <code>ename</code> en type <code>text</code> pour chaque élément ajouté dans le tableau <code>path</code>.
+Cette variante peut être utile pour l&rsquo;émulation de la clause <code>NOCYCLE</code> comme vu
+plus bas :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, path) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, ARRAY[ename::TEXT] <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr,
+</span></span><span style=display:flex><span>           <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> emp.ename::TEXT <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, array_to_string(path, <span style=color:#e6db74>&#39;/&#39;</span>) <span style=color:#66d9ef>AS</span> path 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp_hierarchy <span style=color:#66d9ef>AS</span> emp;
+</span></span></code></pre></div><h3 id=clause-nocycle>Clause NOCYCLE
+<a class=anchor href=#clause-nocycle>#</a></h3><p>La requête Oracle suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>START</span> <span style=color:#66d9ef>WITH</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>CONNECT</span> <span style=color:#66d9ef>BY</span> NOCYCLE <span style=color:#66d9ef>PRIOR</span> empno <span style=color:#f92672>=</span> mgr;
+</span></span></code></pre></div><p>sera transposée pour PostgreSQL de la façon suivante :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, path, is_cycle) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, ARRAY[ename::TEXT] <span style=color:#66d9ef>AS</span> path, <span style=color:#66d9ef>false</span> <span style=color:#66d9ef>AS</span> is_cycle
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, 
+</span></span><span style=display:flex><span>           <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> emp.ename::TEXT <span style=color:#66d9ef>AS</span> path, 
+</span></span><span style=display:flex><span>           emp.ename <span style=color:#f92672>=</span> <span style=color:#66d9ef>ANY</span>(<span style=color:#66d9ef>prior</span>.path) <span style=color:#66d9ef>AS</span> is_cycle
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> is_cycle <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp_hierarchy <span style=color:#66d9ef>AS</span> emp
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>WHERE</span> is_cycle <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+</span></span></code></pre></div><h3 id=clause-connect_by_is_cycle>Clause CONNECT_BY_IS_CYCLE
+<a class=anchor href=#clause-connect_by_is_cycle>#</a></h3><p>La clause <code>CONNECT_BY_IS_CYCLE</code> retourne 1 si la ligne courante a un enfant qui
+est également son ancêtre. Dans le cas contraire, elle retourne 0. Il est
+possible de retrouver le fonctionnement de cette clause à partir de la requête
+précédente, à l&rsquo;aide d&rsquo;une expression conditionnelle et en supprimant la
+dernière restriction :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, <span style=color:#66d9ef>level</span>, path, is_cycle) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>AS</span> <span style=color:#66d9ef>level</span>, ARRAY[ename::TEXT] <span style=color:#66d9ef>AS</span> path, <span style=color:#66d9ef>false</span> <span style=color:#66d9ef>AS</span> is_cycle
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#f92672>=</span> <span style=color:#ae81ff>10000</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, 
+</span></span><span style=display:flex><span>           <span style=color:#66d9ef>prior</span>.<span style=color:#66d9ef>level</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>AS</span> <span style=color:#66d9ef>level</span>, 
+</span></span><span style=display:flex><span>           <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> emp.ename::TEXT <span style=color:#66d9ef>AS</span> path,
+</span></span><span style=display:flex><span>           emp.ename <span style=color:#f92672>=</span> <span style=color:#66d9ef>ANY</span>(<span style=color:#66d9ef>prior</span>.path) <span style=color:#66d9ef>AS</span> is_cycle 
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> is_cycle <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span>, is_cycle::int <span style=color:#66d9ef>AS</span> connect_by_is_cycle
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp_hierarchy <span style=color:#66d9ef>AS</span> emp;
+</span></span></code></pre></div><h3 id=clause-order-siblings-by>Clause ORDER SIBLINGS BY
+<a class=anchor href=#clause-order-siblings-by>#</a></h3><p>L&rsquo;émulation de la clause <code>ORDER SIBLINGS BY</code>, qui effectue un tri, nécessite de
+reprendre la requête récursive émulant la clause <code>SYS_CONNECT_BY_PATH</code> et
+d&rsquo;appliquer un tri sur la colonne <code>path</code> résultante de la requête :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, path) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, <span style=color:#e6db74>&#39;/&#39;</span> <span style=color:#f92672>||</span> ename <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> <span style=color:#e6db74>&#39;/&#39;</span> <span style=color:#f92672>||</span> emp.ename
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> emp_hierarchy
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> path;
+</span></span></code></pre></div><p>Cependant, cette émulation ne fonctionne que dans le cadre d&rsquo;un tri ascendant.
+L&rsquo;application d&rsquo;un tri descendant ne retourne pas le résultat escompté.</p><h3 id=clause-connect_by_root>Clause CONNECT_BY_ROOT
+<a class=anchor href=#clause-connect_by_root>#</a></h3><p>La clause <code>CONNECT_BY_ROOT</code> retourne la racine de chaque élément de la
+hiérarchie. Dans l&rsquo;exemple ci-dessous, la dernière colonne retournera le nom de
+la personne la plus élevée dans la hiérarchie de l&rsquo;employé concerné :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr <span style=color:#66d9ef>AS</span> direct_mgr, 
+</span></span><span style=display:flex><span>       CONNECT_BY_ROOT ename <span style=color:#66d9ef>AS</span> mgr
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>START</span> <span style=color:#66d9ef>WITH</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>CONNECT</span> <span style=color:#66d9ef>BY</span> mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>PRIOR</span> empno
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>ORDER</span> SIBLINGS <span style=color:#66d9ef>BY</span> ename <span style=color:#66d9ef>DESC</span>;
+</span></span></code></pre></div><p>La requête est transposée de la même manière que pour le cas de
+<code>SYS_CONNECT_BY_PATH</code>. Le tableau <code>path</code> est utilisé pour obtenir l&rsquo;élément
+racine de la hiérarchie.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, path) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, ARRAY[ename::TEXT] <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>     <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, 
+</span></span><span style=display:flex><span>           <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> emp.ename::TEXT <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, path[<span style=color:#ae81ff>1</span>] <span style=color:#66d9ef>AS</span> connect_by_root 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp_hierarchy <span style=color:#66d9ef>AS</span> emp;
+</span></span></code></pre></div><h3 id=clause-connect_by_isleaf>Clause CONNECT_BY_ISLEAF
+<a class=anchor href=#clause-connect_by_isleaf>#</a></h3><p>La clause <code>CONNECT_BY_ISLEAF</code> ne prend aucun argument et précise si la ligne en
+question (<em>feuille</em>) n&rsquo;est plus connectée à une nouvelle ligne descendante à
+travers l&rsquo;arbre de hiérarchie. La valeur <code>0</code> est retournée s&rsquo;il existe une
+connexion et <code>1</code> s&rsquo;il s&rsquo;agit de la dernière ligne de la hiérarchie.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr,
+</span></span><span style=display:flex><span>       CONNECT_BY_ROOT ename <span style=color:#66d9ef>AS</span> mgr,
+</span></span><span style=display:flex><span>       CONNECT_BY_ISLEAF <span style=color:#66d9ef>AS</span> isleaf, 
+</span></span><span style=display:flex><span>       SYS_CONNECT_BY_PATH(ename, <span style=color:#e6db74>&#39;/&#39;</span>) <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>START</span> <span style=color:#66d9ef>WITH</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>CONNECT</span> <span style=color:#66d9ef>BY</span> mgr <span style=color:#f92672>=</span>  <span style=color:#66d9ef>PRIOR</span> empno
+</span></span></code></pre></div><p>L&rsquo;émulation de la clause <code>CONNECT_BY_ISLEAF</code> nécessite une auto-jointure sur le
+résultat de la requête récursive pour déterminer si la ligne est une <em>feuille</em>
+de l&rsquo;arbre. Il est nécessaire d&rsquo;utiliser la colonne de type tableau <code>path</code> pour
+pouvoir trier le résultat.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>RECURSIVE</span> emp_hierarchy (empno, ename, job, mgr, path) <span style=color:#66d9ef>AS</span> (
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> empno, ename, job, mgr, ARRAY[ename::TEXT] <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>WHERE</span> mgr <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>UNION</span> <span style=color:#66d9ef>ALL</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, emp.mgr, 
+</span></span><span style=display:flex><span>         <span style=color:#66d9ef>prior</span>.path <span style=color:#f92672>||</span> emp.ename::TEXT <span style=color:#66d9ef>AS</span> path
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>FROM</span> emp
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>prior</span> <span style=color:#66d9ef>ON</span> (emp.mgr <span style=color:#f92672>=</span> <span style=color:#66d9ef>prior</span>.empno)
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> emp.empno, emp.ename, emp.job, 
+</span></span><span style=display:flex><span>       <span style=color:#66d9ef>CASE</span> <span style=color:#66d9ef>WHEN</span> leaf.empno <span style=color:#66d9ef>IS</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>THEN</span> <span style=color:#ae81ff>1</span> <span style=color:#66d9ef>ELSE</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>AS</span> isleaf
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FROM</span> emp_hierarchy <span style=color:#66d9ef>AS</span> emp
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>LEFT</span> <span style=color:#66d9ef>JOIN</span> emp_hierarchy <span style=color:#66d9ef>AS</span> leaf <span style=color:#66d9ef>ON</span> (emp.empno <span style=color:#f92672>=</span> leaf.mgr)
+</span></span><span style=display:flex><span> <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> emp.path;
+</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</li></ul><ul class=book-languages-list><li><a href=https://example.com/hierarchical-querying/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Dernière modification par Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/docs/sql/hierarchies.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Modifier cette page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#traitement-des-hiérarchies>Traitement des hiérarchies</a><ul><li><a href=#connect-by>CONNECT BY</a></li><li><a href=#pseudo-colonne-level>Pseudo-colonne LEVEL</a></li><li><a href=#clause-sys_connect_by_path>Clause SYS_CONNECT_BY_PATH</a></li><li><a href=#clause-nocycle>Clause NOCYCLE</a></li><li><a href=#clause-connect_by_is_cycle>Clause CONNECT_BY_IS_CYCLE</a></li><li><a href=#clause-order-siblings-by>Clause ORDER SIBLINGS BY</a></li><li><a href=#clause-connect_by_root>Clause CONNECT_BY_ROOT</a></li><li><a href=#clause-connect_by_isleaf>Clause CONNECT_BY_ISLEAF</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>

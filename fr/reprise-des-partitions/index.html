@@ -1,0 +1,214 @@
+<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Reprise des partitions # PostgreSQL dispose d&rsquo;un partitionnement déclaratif depuis la version 10, qui ne cesse de s&rsquo;améliorer de version majeure en version majeure. Le type du partitionnement est décisif au moment de la définition du modèle, car il est très coûteux de le changer au moment de la vie des données."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Reprise des partitions"><meta property="og:description" content="Reprise des partitions # PostgreSQL dispose d&rsquo;un partitionnement déclaratif depuis la version 10, qui ne cesse de s&rsquo;améliorer de version majeure en version majeure. Le type du partitionnement est décisif au moment de la définition du modèle, car il est très coûteux de le changer au moment de la vie des données."><meta property="og:type" content="article"><meta property="og:url" content="https://example.com/fr/reprise-des-partitions/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="Porter Oracle vers PostgreSQL"><title>Reprise des partitions</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=alternate hreflang=en href=https://example.com/partitioning/ title=Partitioning><link rel=stylesheet href=/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/fr.search.min.5d63b8891e1dc2263e2b13f848788122e3355a2ceb861e5d51f75a06ead1be44.js integrity="sha256-XWO4iR4dwiY+KxP4SHiBIuM1Wizrhh5dUfdaBurRvkQ="></script>
+<script defer src=/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a href=/fr><img src=/images/logo.png alt=Logo><span>Porter Oracle vers PostgreSQL</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Rechercher aria-label=Rechercher maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://example.com/fr/differences-generales-entre-oracle-et-postgresql/>Différences générales</a><ul></ul></li><li><input type=checkbox id=section-88c4d5ca464ed2de3d87c4f315803bbb class=toggle checked>
+<label for=section-88c4d5ca464ed2de3d87c4f315803bbb class="flex justify-between"><a href=https://example.com/fr/portage-du-schema-de-la-base-de-donnees/>Portage du schéma</a></label><ul><li><a href=https://example.com/fr/correspondance-des-types-de-donnees/>Correspondance des types de données</a></li><li><a href=https://example.com/fr/reprise-des-tables/>Reprise des tables</a></li><li><a href=https://example.com/fr/reprise-des-vues/>Reprise des vues</a></li><li><a href=https://example.com/fr/reprise-des-sequences/>Reprise des séquences</a></li><li><a href=https://example.com/fr/reprise-des-index/>Reprise des index</a></li><li><a href=https://example.com/fr/reprise-des-partitions/ class=active>Reprise des partitions</a></li></ul></li><li><input type=checkbox id=section-b7e37e1862e6db598e5e41747363d74a class=toggle>
+<label for=section-b7e37e1862e6db598e5e41747363d74a class="flex justify-between"><a href=https://example.com/fr/portage-des-requetes-sql/>Portage des requêtes SQL</a></label><ul><li><a href=https://example.com/fr/specificites-des-types-de-donnees/>Spécificités des types de données</a></li><li><a href=https://example.com/fr/jointures/>Jointures</a></li><li><a href=https://example.com/fr/expressions-conditionnelles/>Expressions conditionnelles</a></li><li><a href=https://example.com/fr/traitement-des-hierarchies/>Traitement des hiérarchies</a></li><li><a href=https://example.com/fr/gestion-des-transactions/>Gestion des transactions</a></li></ul></li><li><input type=checkbox id=section-cfaa4d420be7e860c2f111a313f9a252 class=toggle>
+<label for=section-cfaa4d420be7e860c2f111a313f9a252 class="flex justify-between"><a href=https://example.com/fr/portage-du-code-pl-sql-vers-pl-pgsql/>Portage du code PL/SQL vers PL/pgSQL</a></label><ul><li><a href=https://example.com/fr/portage-des-procedures-et-fonctions/>Portage des procédures et fonctions</a></li><li><a href=https://example.com/fr/portage-des-triggers/>Portage des triggers</a></li><li><a href=https://example.com/fr/structures-de-controles/>Structures de contrôles</a></li><li><a href=https://example.com/fr/reprise-du-code-pl-sql/>Reprise du code PL/SQL</a></li><li><a href=https://example.com/fr/curseurs/>Curseurs</a></li><li><a href=https://example.com/fr/specificites-pl-sql/>Spécificités PL/SQL</a></li><li><a href=https://example.com/fr/packages-proprietaires/>Packages propriétaires</a></li></ul></li><li><a href=https://example.com/fr/nous-contacter/>Nous contacter</a><ul></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Reprise des partitions</strong>
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><ul><li><a href=#reprise-des-partitions>Reprise des partitions</a><ul><li><a href=#partitionnementpar-liste>Partitionnement par liste</a></li><li><a href=#partitionnementpar-intervalles>Partitionnement par intervalles</a></li><li><a href=#partitionnement-par-intervalles-automatique>Partitionnement par intervalles automatique</a></li><li><a href=#partitionnementpar-hâchage>Partitionnement par hâchage</a></li><li><a href=#partitionnement-composite>Partitionnement composite</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h2 id=reprise-des-partitions>Reprise des partitions
+<a class=anchor href=#reprise-des-partitions>#</a></h2><p>PostgreSQL dispose d&rsquo;un partitionnement déclaratif depuis la version 10, qui ne
+cesse de s&rsquo;améliorer de version majeure en version majeure. Le type du
+partitionnement est décisif au moment de la définition du modèle, car il est
+très coûteux de le changer au moment de la vie des données. Contrairement à
+Oracle, la table partitionnée doit être créée séparément avant que les
+partitions puissent être définies.</p><h3 id=partitionnementpar-liste>Partitionnement par liste
+<a class=anchor href=#partitionnementpar-liste>#</a></h3><p>La définition suivante d&rsquo;une table partitionnée Oracle :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t1 (c1 integer, c2 varchar2(<span style=color:#ae81ff>100</span>))
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> LIST (c1) (
+</span></span><span style=display:flex><span>    PARTITION t1_a <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>),
+</span></span><span style=display:flex><span>    PARTITION t1_b <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>5</span>),
+</span></span><span style=display:flex><span>    PARTITION t1_default <span style=color:#66d9ef>VALUES</span> (<span style=color:#66d9ef>DEFAULT</span>)
+</span></span><span style=display:flex><span>  );
+</span></span></code></pre></div><p>Sera reprise de cette façon avec PostgreSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t1(c1 integer, c2 varchar(<span style=color:#ae81ff>100</span>))
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> LIST (c1) ;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t1_a PARTITION <span style=color:#66d9ef>OF</span> t1 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>IN</span> (<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t1_b PARTITION <span style=color:#66d9ef>OF</span> t1 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>IN</span> (<span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>5</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t1_default PARTITION <span style=color:#66d9ef>of</span> t1 <span style=color:#66d9ef>DEFAULT</span>;
+</span></span></code></pre></div><h3 id=partitionnementpar-intervalles>Partitionnement par intervalles
+<a class=anchor href=#partitionnementpar-intervalles>#</a></h3><p>Oracle permet la déclaration d&rsquo;intervalles de valeurs à l&rsquo;aide de la clause
+<code>LESS THAN</code> afin de joindre la borne inférieure d&rsquo;une partition avec la borne
+supérieure d&rsquo;une autre partition. Les valeurs sont donc strictement comprises
+entre <code>-∞</code> et la plus haute borne supérieure.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2 (c1 integer, c2 varchar2(<span style=color:#ae81ff>100</span>))
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> RANGE (c1) (
+</span></span><span style=display:flex><span>    PARTITION t2_a <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> (<span style=color:#ae81ff>0</span>),
+</span></span><span style=display:flex><span>    PARTITION t2_b <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> (<span style=color:#ae81ff>100</span>),
+</span></span><span style=display:flex><span>    PARTITION t2_c <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> (<span style=color:#66d9ef>MAXVALUE</span>)
+</span></span><span style=display:flex><span>  );
+</span></span></code></pre></div><p>Les deux bornes de l&rsquo;intervalle d&rsquo;une partition doivent être précisées lors de la
+déclaration avec PostgreSQL, la borne supérieure étant exclue de l&rsquo;intervalle.
+La table partitionnée sera donc traduite de cette façon :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2 (c1 integer, c2 varchar(<span style=color:#ae81ff>100</span>)) PARTITION <span style=color:#66d9ef>BY</span> RANGE (c1);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2_a PARTITION <span style=color:#66d9ef>OF</span> t2 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#66d9ef>MINVALUE</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2_b PARTITION <span style=color:#66d9ef>OF</span> t2 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#ae81ff>0</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#ae81ff>100</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2_c PARTITION <span style=color:#66d9ef>OF</span> t2 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#ae81ff>100</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#66d9ef>MAXVALUE</span>);
+</span></span></code></pre></div><h3 id=partitionnement-par-intervalles-automatique>Partitionnement par intervalles automatique
+<a class=anchor href=#partitionnement-par-intervalles-automatique>#</a></h3><p>Oracle propose de créer automatiquement les partitions à l&rsquo;aide de la clause
+<code>INTERVAL</code> et d&rsquo;un litéral représentant un intervalle <code>DAY TO SECOND</code> ou <code>YEAR TO MONTH</code>. Dans l&rsquo;exemple ci-dessous, seule la première partition pivot est
+définie ; toutes les données insérées provoqueront la création d&rsquo;une partition
+lorsque la valeur de la clé de partitionnement se trouve au-delà de la borne
+supérieure de la partition pivot.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2_auto (c1 number(<span style=color:#ae81ff>6</span>), c2 date)
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> RANGE (c2) INTERVAL (NUMTOYMINTERVAL(<span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#39;MONTH&#39;</span>)) (
+</span></span><span style=display:flex><span>    PARTITION t2_part <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span>
+</span></span><span style=display:flex><span>      (TO_DATE(<span style=color:#e6db74>&#39;01-JAN-2020&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>))
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t2_auto <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>1</span>, TO_DATE(<span style=color:#e6db74>&#39;01-DEC-2000&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>));
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t2_auto <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>2</span>, TO_DATE(<span style=color:#e6db74>&#39;01-OCT-2022&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>));
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t2_auto <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>3</span>, TO_DATE(<span style=color:#e6db74>&#39;01-DEC-2022&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>));
+</span></span></code></pre></div><p>La vue <code>USER_TAB_PARTITIONS</code> présente les partitions, dont deux nouvelles qui
+portent un nom généré par le moteur.</p><table><thead><tr><th>TABLE_NAME</th><th>PARTITION_NAME</th><th>HIGH_VALUE</th></tr></thead><tbody><tr><td>T2_AUTO</td><td>T2_PART</td><td>TO_DATE(&lsquo;2020-01-01&rsquo;, &lsquo;SYYYY-MM-DD&rsquo;)</td></tr><tr><td>T2_AUTO</td><td>SYS_P472681</td><td>TO_DATE(&lsquo;2021-11-01&rsquo;, &lsquo;SYYYY-MM-DD&rsquo;)</td></tr><tr><td>T2_AUTO</td><td>SYS_P472682</td><td>TO_DATE(&lsquo;2023-01-01&rsquo;, &lsquo;SYYYY-MM-DD&rsquo;)</td></tr></tbody></table><p>Cette fonctionnalité de création automatique des partitions n&rsquo;est pas disponible
+nativement avec PostgreSQL. Il est cependant possible de se rapprocher du
+comportement présenté ci-dessus à l&rsquo;aide du projet <strong>pg_partman</strong>. Cette extension
+repose sur des tables de configuration et d&rsquo;une routine de maintenance afin de
+détecter les tables partitionnées nécessitant de nouvelles partitions.</p><p>Contrairement à Oracle, toute nouvelle ligne en dehors d&rsquo;une des bornes
+existantes est insérée dans la partition par défaut. La routine de maintenance se
+charge de déplacer les données vers les partitions attribuées de façon
+asynchrone.</p><p>Prenons l&rsquo;exemple de la table <code>t2_auto</code> qui peut être transformée de la façon
+suivante. L&rsquo;option <code>premake</code> permet d&rsquo;anticiper la création de <code>n</code> partitions à
+partir du prochain intervalle au moment de l&rsquo;exécution de la méthode.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t2_auto (c1 integer, c2 date)
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> RANGE (c2);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>SCHEMA</span> partman;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> EXTENSION pg_partman <span style=color:#66d9ef>WITH</span> <span style=color:#66d9ef>SCHEMA</span> partman;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> partman.create_parent(
+</span></span><span style=display:flex><span>  p_parent_table <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;public.t2_auto&#39;</span>,
+</span></span><span style=display:flex><span>  p_control <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;c2&#39;</span>,
+</span></span><span style=display:flex><span>  p_type <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;native&#39;</span>,
+</span></span><span style=display:flex><span>  p_interval <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;monthly&#39;</span>,
+</span></span><span style=display:flex><span>  p_premake <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>);
+</span></span></code></pre></div><p>La requête suivante montre la distribution de trois lignes au sein des
+partitions :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t2_auto <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#39;2000-12-01&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t2_auto <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>2</span>, <span style=color:#e6db74>&#39;2022-10-01&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t2_auto <span style=color:#66d9ef>VALUES</span> (<span style=color:#ae81ff>3</span>, <span style=color:#e6db74>&#39;2022-12-01&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> tableoid::regclass, <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t2_auto;
+</span></span><span style=display:flex><span><span style=color:#75715e>--     tableoid     | c1 |     c2     
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- -----------------+----+------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- t2_auto_p2022_10 |  2 | 2022-10-01
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- t2_auto_default  |  1 | 2000-12-01
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- t2_auto_default  |  3 | 2022-12-01
+</span></span></span></code></pre></div><p>L&rsquo;outil propose une série de méthodes de maintenance pour ajouter de nouvelles
+partitions et redistribuer les lignes présentes dans la table par défaut. Ces
+opérations doivent être planifiées par un orchestrateur externe (<em>cron</em>,
+<em>pg_cron</em>, etc.) ou à l&rsquo;aide du processus d&rsquo;arrière-plan fourni avec
+l&rsquo;extension. Cette dernière solution nécessite de positionner la valeur
+<code>pg_partman_bgw</code> au paramètre <code>shared_preload_libraries</code> et de redémarrer
+l&rsquo;instance.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#75715e>-- Surveille les données insérées dans les tables parents et la 
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- table par défaut
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> partman.check_default();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Déplace les données des tables parents ou de la table par défaut
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- vers les enfants appropriés.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> partman.partition_data_time(p_parent_table <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;public.t2_auto&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Crée automatiquement des tables enfants pour les partitions gérées
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- par pg_partman
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>CALL</span> partman.run_maintenance_proc();
+</span></span></code></pre></div><p>Les données sont à présent dans les bonnes partitions.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> tableoid::regclass, <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t2_auto;
+</span></span><span style=display:flex><span><span style=color:#75715e>--     tableoid     | c1 |     c2     
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- -----------------+----+------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- t2_auto_p2000_12 |  1 | 2000-12-01
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- t2_auto_p2022_10 |  2 | 2022-10-01
+</span></span></span><span style=display:flex><span><span style=color:#75715e>-- t2_auto_p2022_12 |  3 | 2022-12-01
+</span></span></span></code></pre></div><h3 id=partitionnementpar-hâchage>Partitionnement par hâchage
+<a class=anchor href=#partitionnementpar-h%c3%a2chage>#</a></h3><p>Pour répartir équitablement les données entre un nombre fini de partitions,
+Oracle et PostgreSQL proposent le même fonctionnement de partitionnement
+par hâchage.</p><p>La table partitionnée suivante avec Oracle :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3 (c1 integer, c2 varchar2(<span style=color:#ae81ff>100</span>))
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> HASH (c1) (
+</span></span><span style=display:flex><span>    PARTITION t3_a,
+</span></span><span style=display:flex><span>    PARTITION t3_b,
+</span></span><span style=display:flex><span>    PARTITION t3_c
+</span></span><span style=display:flex><span>  );
+</span></span></code></pre></div><p>Sera convertie de la sorte avec PostgreSQL :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3 (c1 integer, c2 varchar(<span style=color:#ae81ff>100</span>)) 
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> HASH (c1);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3_a PARTITION <span style=color:#66d9ef>OF</span> t3 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>WITH</span> (modulus <span style=color:#ae81ff>3</span>, remainder <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3_b PARTITION <span style=color:#66d9ef>OF</span> t3 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>WITH</span> (modulus <span style=color:#ae81ff>3</span>, remainder <span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3_c PARTITION <span style=color:#66d9ef>OF</span> t3 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>WITH</span> (modulus <span style=color:#ae81ff>3</span>, remainder <span style=color:#ae81ff>2</span>);
+</span></span></code></pre></div><p>Lorsqu&rsquo;il est nécessaire d&rsquo;ajouter une ou plusieurs partitions à une table
+partitionnée, notamment pour répartir à nouveau le volume de lignes, Oracle
+choisit lui-même une partition selon l&rsquo;algorithme de hâchage pour diviser le
+contenu de la partition en deux afin de redistribuer l&rsquo;une des moitiés sur la
+nouvelle partition.</p><p>Avec Oracle, l&rsquo;ordre de maintenance suivant réalise les opérations de façon
+transparente :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> t3 <span style=color:#66d9ef>ADD</span> PARTITION t3_d;
+</span></span></code></pre></div><p>Avec PostgreSQL, il revient à l&rsquo;administrateur de sélectionner la partition
+source en élargissant les options <code>modulus</code> et <code>remainder</code> pour répartir les
+deux (ou plus) sous-ensembles de données, dont chaque moitié sera déplacée dans
+les nouvelles partitions. Cette opération nécessite de poser un verrou dans une
+transaction le temps de la copie vers les deux nouvelles partitions :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Remplacement d&#39;une partition par deux sous-ensembles
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> t3 DETACH PARTITION t3_c;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3_c_0 PARTITION <span style=color:#66d9ef>OF</span> t3 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>WITH</span> (modulus <span style=color:#ae81ff>6</span>, remainder <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t3_c_3 PARTITION <span style=color:#66d9ef>OF</span> t3 <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>WITH</span> (modulus <span style=color:#ae81ff>6</span>, remainder <span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Déplacement des lignes
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t3 <span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>FROM</span> t3_c;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>DROP</span> <span style=color:#66d9ef>TABLE</span> t3_c;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>COMMIT</span>;
+</span></span></code></pre></div><h3 id=partitionnement-composite>Partitionnement composite
+<a class=anchor href=#partitionnement-composite>#</a></h3><p>Les précédentes méthodes peuvent être couplées pour répondre à des besoins de
+partitionnement plus précis, sur plusieurs niveaux de clés de partitionnement.
+Prenons la table suivante avec Oracle qui présente des partitions par liste et
+des sous-partitions par intervalles :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4 (c1 char(<span style=color:#ae81ff>1</span>), c2 date)
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> LIST (c1)
+</span></span><span style=display:flex><span>  SUBPARTITION <span style=color:#66d9ef>BY</span> RANGE (c2) (
+</span></span><span style=display:flex><span>    PARTITION t4_a <span style=color:#66d9ef>VALUES</span> (<span style=color:#e6db74>&#39;A&#39;</span>) (
+</span></span><span style=display:flex><span>      SUBPARTITION t4_a_2020 <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> 
+</span></span><span style=display:flex><span>        (TO_DATE(<span style=color:#e6db74>&#39;01-JAN-2021&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>)),
+</span></span><span style=display:flex><span>      SUBPARTITION t4_a_2021 <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> 
+</span></span><span style=display:flex><span>        (TO_DATE(<span style=color:#e6db74>&#39;01-JAN-2022&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>)),
+</span></span><span style=display:flex><span>      SUBPARTITION t4_a_2022 <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> 
+</span></span><span style=display:flex><span>        (TO_DATE(<span style=color:#e6db74>&#39;01-JAN-2023&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>))
+</span></span><span style=display:flex><span>    ),
+</span></span><span style=display:flex><span>    PARTITION t4_b <span style=color:#66d9ef>VALUES</span> (<span style=color:#e6db74>&#39;B&#39;</span>) (
+</span></span><span style=display:flex><span>      SUBPARTITION t4_b_2020 <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> 
+</span></span><span style=display:flex><span>        (TO_DATE(<span style=color:#e6db74>&#39;01-JAN-2021&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>)),
+</span></span><span style=display:flex><span>      SUBPARTITION t4_b_2021 <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> 
+</span></span><span style=display:flex><span>        (TO_DATE(<span style=color:#e6db74>&#39;01-JAN-2022&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>)),
+</span></span><span style=display:flex><span>      SUBPARTITION t4_b_2022 <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>LESS</span> <span style=color:#66d9ef>THAN</span> 
+</span></span><span style=display:flex><span>        (TO_DATE(<span style=color:#e6db74>&#39;01-JAN-2023&#39;</span>,<span style=color:#e6db74>&#39;dd-MON-yyyy&#39;</span>))
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>  );
+</span></span></code></pre></div><p>Avec PostgreSQL, il sera suffisant de créer des tables partitionnées rattachées
+à d&rsquo;autres tables partitionnées. Les partitions définissent le niveau de
+profondeur final. L&rsquo;exemple précédent sera réécrit de cette manière :</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4 (c1 char(<span style=color:#ae81ff>1</span>), c2 date)
+</span></span><span style=display:flex><span>  PARTITION <span style=color:#66d9ef>BY</span> LIST (c1);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_a PARTITION <span style=color:#66d9ef>OF</span> t4 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>IN</span> (<span style=color:#e6db74>&#39;A&#39;</span>) PARTITION <span style=color:#66d9ef>BY</span> RANGE (c2);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_a_2020 PARTITION <span style=color:#66d9ef>OF</span> t4_a 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#66d9ef>MINVALUE</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#e6db74>&#39;2021-01-01&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_a_2021 PARTITION <span style=color:#66d9ef>OF</span> t4_a 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#e6db74>&#39;2021-01-01&#39;</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#e6db74>&#39;2022-01-01&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_a_2022 PARTITION <span style=color:#66d9ef>OF</span> t4_a 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#e6db74>&#39;2022-01-01&#39;</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#e6db74>&#39;2023-01-01&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_b PARTITION <span style=color:#66d9ef>OF</span> t4 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>IN</span> (<span style=color:#e6db74>&#39;B&#39;</span>) PARTITION <span style=color:#66d9ef>BY</span> RANGE (c2);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_b_2020 PARTITION <span style=color:#66d9ef>OF</span> t4_b 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#66d9ef>MINVALUE</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#e6db74>&#39;2021-01-01&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_b_2021 PARTITION <span style=color:#66d9ef>OF</span> t4_b 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#e6db74>&#39;2021-01-01&#39;</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#e6db74>&#39;2022-01-01&#39;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> t4_b_2022 PARTITION <span style=color:#66d9ef>OF</span> t4_b 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> <span style=color:#66d9ef>VALUES</span> <span style=color:#66d9ef>FROM</span> (<span style=color:#e6db74>&#39;2022-01-01&#39;</span>) <span style=color:#66d9ef>TO</span> (<span style=color:#e6db74>&#39;2023-01-01&#39;</span>);
+</span></span></code></pre></div><hr><p>Le partitionnement permet de répondre à plusieurs problématiques. L&rsquo;une d&rsquo;entre
+elle concerne les performances, si le partitionnement est bien conçu et les
+requêtes écrites de façon à tirer partie du partitionnement, alors PostgreSQL ne
+lira qu&rsquo;une ou quelques partitions et non pas la totalité des partitions.</p><p>Une autre problématique adressée concerne la maintenance. Le partitionnement
+permet en effet de simplifier les opérations de suppressions de données. Par
+exemple, la suppression des données relatives à une année se résumera à la
+simple suppression d&rsquo;une table si la table est partitionnée sur l&rsquo;année. Les
+opérations de maintenance (<code>VACUUM</code>, <code>ANALYZE</code>) sont également bien plus
+efficace.</p><p>Cependant, le partitionnement déclaratif avec PostgreSQL peut souffrir
+d&rsquo;insuffisances fonctionnelles par rapport aux avancées que présente Oracle. Par
+exemple, les contraintes de clés étrangères définies avec des actions telles que
+<code>ON DELETE ... CASCADE</code> peuvent avoir des comportements surprenants sur des
+tables partitionnées avant la version 15, où le déplacement d&rsquo;une ligne entre
+deux partitions déclenche la suppression en cascade des lignes de la clé
+étrangère.</p><p>Références :</p><ul><li><a href=https://docs.postgresql.fr/current/ddl-partitioning.html>Partitionnement</a></li><li><a href=https://blog.anayrat.info/2021/09/01/cas-dusages-du-partitionnement-natif-dans-postgresql>Cas d&rsquo;usages du partitionnement natif dans PostgreSQL</a></li><li><a href=https://github.com/pgpartman/pg_partman>Projet pg_partman</a></li><li><a href=https://github.com/postgres/postgres/commit/ba9a7e392171c83eb3332a757279e7088487f9a2>Release 15: Enforce foreign key correctly during cross-partition updates</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+French</li></ul><ul class=book-languages-list><li><a href=https://example.com/partitioning/ class="flex align-center"><img src=/svg/translate.svg class=book-icon alt=Languages>
+English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0e0e39630a9315928b94eb8adbab6b0771fc83ec title='Dernière modification par Florent Jardin | November 21, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 21, 2022</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/docs/schema/partitions.md target=_blank rel=noopener><img src=/svg/edit.svg class=book-icon alt=Edit>
+<span>Modifier cette page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><ul><li><a href=#reprise-des-partitions>Reprise des partitions</a><ul><li><a href=#partitionnementpar-liste>Partitionnement par liste</a></li><li><a href=#partitionnementpar-intervalles>Partitionnement par intervalles</a></li><li><a href=#partitionnement-par-intervalles-automatique>Partitionnement par intervalles automatique</a></li><li><a href=#partitionnementpar-hâchage>Partitionnement par hâchage</a></li><li><a href=#partitionnement-composite>Partitionnement composite</a></li></ul></li></ul></li></ul></nav></div></aside></main></body></html>
