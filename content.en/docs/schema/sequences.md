@@ -15,15 +15,6 @@ the `NOMAXVALUE` clause from Oracle has to be translated to `NO MAXVALUE` for
 PostgreSQL. However, Oracle's `NOCACHE` clause has no equivalent in PostgreSQL, 
 but it can be converted to `CACHE 1`, or simply removed. Only the `ORDER` and 
 `NOORDER` have no equivalent in PostgreSQL, as they are a specificity of 
-Oracle RAC. 
-
-De manière générale, les clauses précédées de `NO` permettant d'utiliser les 
-valeurs par défaut nécessitent de séparer le mot clé `NO` de la clause pour être
-porté sous PostgreSQL. Par exemple, la clause `NOMAXVALUE` Oracle doit être 
-réécrite `NO MAXVALUE` pour PostgreSQL. Toutefois, la clause Oracle `NOCACHE` 
-n'a pas d'équivalent direct dans PostgreSQL, mais on peut la transformer en 
-`CACHE 1` ou simplement la supprimer. Seules les clauses `ORDER` et `NOORDER` 
-ne trouveront aucun équivalent dans PostgreSQL car elles sont spécifiques à
 Oracle RAC.
 
 References:
