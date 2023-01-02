@@ -15,11 +15,11 @@ in PostgreSQL.
 
 | type Oracle | type PostgreSQL |
 |--------------|-----------------|
-| varchar2, nchar2, nvarchar2, nclob | varchar ou text |
-| clob, long | varchar ou text |
+| varchar2, nchar2, nvarchar2, nclob | varchar, text |
+| clob, long | varchar, text |
 | blob, raw, long raw | bytea |
 | number | numeric, integer, bigint, smallint, real, double precision |
-| date | date ou timestamp |
+| date | date, timestamp |
 | binary float | real |
 | binary double | double precision |
 
