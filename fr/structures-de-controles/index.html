@@ -1,4 +1,4 @@
-<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.106.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Structures de contrôles # Les boucles et les différentes structures de contrôles ne nécessitent pas de portage particulier, en dehors des instructions GOTO et FORALL.
+<!doctype html><html lang=fr dir=ltr><head><meta name=generator content="Hugo 0.109.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Structures de contrôles # Les boucles et les différentes structures de contrôles ne nécessitent pas de portage particulier, en dehors des instructions GOTO et FORALL.
 Boucle FOR REVERSE # La boucle FOR ."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Structures de contrôles"><meta property="og:description" content="Structures de contrôles # Les boucles et les différentes structures de contrôles ne nécessitent pas de portage particulier, en dehors des instructions GOTO et FORALL.
 Boucle FOR REVERSE # La boucle FOR ."><meta property="og:type" content="article"><meta property="og:url" content="https://dalibo.github.io/from-oracle-to-postgresql/fr/structures-de-controles/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-21T17:42:55+01:00"><meta property="og:site_name" content="Porter Oracle vers PostgreSQL"><title>Structures de contrôles</title><link rel=manifest href=/from-oracle-to-postgresql/manifest.json><link rel=icon href=/from-oracle-to-postgresql/favicon.png type=image/x-icon><link rel=alternate hreflang=en href=https://dalibo.github.io/from-oracle-to-postgresql/control-structures/ title="Control structures"><link rel=stylesheet href=/from-oracle-to-postgresql/book.min.a0b1bf814d7fc28217ec0eea7c47371480fb4f325cec9eb1ae1aa1097d715ec7.css integrity="sha256-oLG/gU1/woIX7A7qfEc3FID7TzJc7J6xrhqhCX1xXsc="><script defer src=/from-oracle-to-postgresql/fr.search.min.e7828a63b0a6f917d99bf7d711c9cbaa10d786e3f83f8aa40da04e3e773dcb9f.js integrity="sha256-54KKY7Cm+RfZm/fXEcnLqhDXhuP4P4qkDaBOPnc9y58="></script>
 <script defer src=/from-oracle-to-postgresql/sw.min.83ed3a56e2fac2ed3c3c3e1a69afc266f54bc9e92078450a47292a4db2ee86f1.js integrity="sha256-g+06VuL6wu08PD4aaa/CZvVLyekgeEUKRykqTbLuhvE="></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
@@ -60,11 +60,11 @@ exemple pour aller à l&rsquo;itération suivante ou simplement sortir de la bou
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>FETCH</span> curs_courant <span style=color:#66d9ef>INTO</span> courant;
 </span></span><span style=display:flex><span>  EXIT <span style=color:#66d9ef>WHEN</span> curs_courant<span style=color:#f92672>%</span>NOTFOUND;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> v_cat <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;YYY&#39;</span> <span style=color:#66d9ef>THEN</span>
-</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    v_cat<span style=color:#960050;background-color:#1e0010> </span>:<span style=color:#f92672>=</span> courant;
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>GOTO</span> DEBUT;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> courant <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;N1&#39;</span> <span style=color:#66d9ef>THEN</span>
-</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    v_cat<span style=color:#960050;background-color:#1e0010> </span>:<span style=color:#f92672>=</span> courant;
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>GOTO</span> FIN;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
 </span></span><span style=display:flex><span>  ...
@@ -79,11 +79,11 @@ exemple pour aller à l&rsquo;itération suivante ou simplement sortir de la bou
 </span></span><span style=display:flex><span>    EXIT;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> v_cat <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;YYY&#39;</span> <span style=color:#66d9ef>THEN</span>
-</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    v_cat<span style=color:#960050;background-color:#1e0010> </span>:<span style=color:#f92672>=</span> courant;
 </span></span><span style=display:flex><span>    <span style=color:#66d9ef>CONTINUE</span>;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>IF</span> courant <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;N1&#39;</span> <span style=color:#66d9ef>THEN</span>
-</span></span><span style=display:flex><span>    v_cat :<span style=color:#f92672>=</span> courant;
+</span></span><span style=display:flex><span>    v_cat<span style=color:#960050;background-color:#1e0010> </span>:<span style=color:#f92672>=</span> courant;
 </span></span><span style=display:flex><span>    EXIT;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> <span style=color:#66d9ef>IF</span>;
 </span></span><span style=display:flex><span>  ...
@@ -109,7 +109,7 @@ il s&rsquo;agit uniquement de parcourir le tableau de la collection.</p><p>Ainsi
 </span></span><span style=display:flex><span><span style=color:#66d9ef>DECLARE</span>
 </span></span><span style=display:flex><span>  arr_emp CHAR(<span style=color:#ae81ff>14</span>)[];
 </span></span><span style=display:flex><span><span style=color:#66d9ef>BEGIN</span>
-</span></span><span style=display:flex><span>  arr_emp :<span style=color:#f92672>=</span> array ( <span style=color:#66d9ef>SELECT</span> ename <span style=color:#66d9ef>FROM</span> emp <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> ename);
+</span></span><span style=display:flex><span>  arr_emp<span style=color:#960050;background-color:#1e0010> </span>:<span style=color:#f92672>=</span> array ( <span style=color:#66d9ef>SELECT</span> ename <span style=color:#66d9ef>FROM</span> emp <span style=color:#66d9ef>ORDER</span> <span style=color:#66d9ef>BY</span> ename);
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>FOR</span> i <span style=color:#66d9ef>IN</span> array_lower(arr_emp,<span style=color:#ae81ff>1</span>)..array_upper(arr_emp,<span style=color:#ae81ff>1</span>) LOOP
 </span></span><span style=display:flex><span>    RAISE NOTICE <span style=color:#e6db74>&#39;|name % i %&#39;</span>, arr_emp[i], i;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>END</span> LOOP;
