@@ -2,6 +2,8 @@
 weight: 2
 bookFlatSection: false
 title: "Joins"
+previouspage: "operations"
+nextpage: "conditions"
 ---
 
 ## Joins

@@ -4,6 +4,8 @@ bookFlatSection: false
 title: "Portage des requêtes SQL"
 url: "portage-des-requetes-sql"
 bookCollapseSection: true
+previouspage: "partitions"
+nextpage: "operations"
 ---
 
 ## Compatibilité des ordres DML

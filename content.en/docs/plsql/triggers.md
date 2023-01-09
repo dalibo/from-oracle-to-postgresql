@@ -2,6 +2,8 @@
 weight: 2
 bookFlatSection: false
 title: "Triggers conversion"
+previouspage: "routines"
+nextpage: "controls"
 ---
 
 ## Triggers conversion

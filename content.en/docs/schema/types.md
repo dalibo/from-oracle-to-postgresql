@@ -2,6 +2,8 @@
 weight: 1
 bookFlatSection: false
 title: "Datatypes"
+previouspage: "/schema"
+nextpage: "tables"
 ---
 
 ## Datatypes

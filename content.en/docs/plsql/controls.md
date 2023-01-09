@@ -2,6 +2,8 @@
 weight: 3
 bookFlatSection: false
 title: "Control structures"
+previouspage: "triggers"
+nextpage: "code"
 ---
 
 ## Control structures

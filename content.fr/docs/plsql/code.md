@@ -3,6 +3,8 @@ weight: 4
 bookFlatSection: false
 title: "Reprise du code PL/SQL"
 slug: "reprise-du-code-pl-sql"
+previouspage: "controls"
+nextpage: "cursors"
 ---
 
 ## Reprise du code PL/SQL

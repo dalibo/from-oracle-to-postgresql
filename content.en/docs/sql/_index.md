@@ -4,6 +4,8 @@ bookFlatSection: false
 title: "Porting SQL queries"
 url: "porting-sql-queries"
 bookCollapseSection: true
+previouspage: "partitions"
+nextpage: "operations"
 ---
 
 # Porting SQL queries

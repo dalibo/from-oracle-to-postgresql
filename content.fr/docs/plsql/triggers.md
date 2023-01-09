@@ -2,6 +2,8 @@
 weight: 2
 bookFlatSection: false
 title: "Portage des triggers"
+previouspage: "routines"
+nextpage: "controls"
 ---
 
 ## Portage des triggers

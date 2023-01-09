@@ -2,6 +2,8 @@
 weight: 1
 bookFlatSection: false
 title: "Porting procedures and functions"
+previouspage: "/plsql"
+nextpage: "triggers"
 ---
 
 ## Porting procedures and functions

@@ -1,0 +1,25 @@
+<!-- Bottom navigation link -->
+{{ if (or (isset .Params "previouspage") (isset .Params "nextpage")) }}
+
+{{ $pp := printf "%s" .Params.previouspage }}
+{{ $np := printf "%s" .Params.nextpage }}
+
+<hr />
+
+<div class="flex flex-wrap justify-between">
+    <div>
+        {{ with $.Site.GetPage $pp }}
+        <a href="{{ .Permalink }}"><span>{{ i18n "Previous" }}</span></a><br />
+        {{ .Title }}
+        {{ end }}
+    </div>
+    <div>
+        {{ with $.Site.GetPage $np }}
+        <a href="{{ .Permalink }}"><span>{{ i18n "Next" }}</span></a><br />
+        {{ .Title }}
+        {{ end }}
+    </div>
+</div>
+
+<hr />
+{{ end }}

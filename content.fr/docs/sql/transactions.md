@@ -2,6 +2,8 @@
 weight: 5
 bookFlatSection: false
 title: "Gestion des transactions"
+previouspage: "hierarchies"
+nextpage: "/plsql"
 ---
 
 ## Gestion des transactions

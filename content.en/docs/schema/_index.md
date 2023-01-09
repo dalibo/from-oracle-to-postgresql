@@ -4,6 +4,8 @@ bookFlatSection: false
 title: "Porting database objects"
 url: "porting-the-database-schema-to-postgresql"
 bookCollapseSection: true
+previouspage: "/general"
+nextpage: "types"
 ---
 
 # Porting the database schema to PostgreSQL

@@ -2,6 +2,8 @@
 weight: 5
 bookFlatSection: false
 title: "Reprise des index"
+previouspage: "sequences"
+nextpage: "partitions"
 ---
 
 ## Reprise des index

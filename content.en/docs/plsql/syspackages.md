@@ -2,6 +2,7 @@
 weight: 7
 bookFlatSection: false
 title: "Oracle's packages"
+previouspage: "specials"
 ---
 
 ## Oracle's packages

@@ -2,6 +2,8 @@
 weight: 2
 bookFlatSection: false
 title: "Jointures"
+previouspage: "operations"
+nextpage: "conditions"
 ---
 
 ## Jointures

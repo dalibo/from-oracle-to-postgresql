@@ -2,6 +2,8 @@
 weight: 1
 bookFlatSection: false
 title: "Specificities on Data types"
+previouspage: "/sql"
+nextpage: "joins"
 ---
 
 ## Specificities on Data types

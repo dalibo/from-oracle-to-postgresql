@@ -2,6 +2,8 @@
 weight: 5
 bookFlatSection: false
 title: "Cursors"
+previouspage: "code"
+nextpage: "specials"
 ---
 
 ## Cursors

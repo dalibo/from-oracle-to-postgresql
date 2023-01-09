@@ -2,6 +2,8 @@
 weight: 3
 bookFlatSection: false
 title: "Views migration"
+previouspage: "tables"
+nextpage: "sequences"
 ---
 
 ## Views migration

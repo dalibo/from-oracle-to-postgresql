@@ -2,6 +2,8 @@
 weight: 4
 bookFlatSection: false
 title: "Reprise des séquences"
+previouspage: "views"
+nextpage: "indexes"
 ---
 
 ## Reprise des séquences

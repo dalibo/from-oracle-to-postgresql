@@ -2,6 +2,8 @@
 weight: 5
 bookFlatSection: false
 title: "Transaction management"
+previouspage: "hierarchies"
+nextpage: "/plsql"
 ---
 
 ## Transaction management

@@ -2,6 +2,8 @@
 weight: 4
 bookFlatSection: false
 title: "Hierarchical querying"
+previouspage: "conditions"
+nextpage: "transactions"
 ---
 
 ## Hierarchical querying

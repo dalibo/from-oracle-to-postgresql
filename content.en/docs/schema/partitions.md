@@ -2,6 +2,8 @@
 weight: 6
 bookFlatSection: false
 title: "Partitioning"
+previouspage: "indexes"
+nextpage: "/sql"
 ---
 
 ## Partitioning

@@ -57,3 +57,9 @@ languages:
     title: Porter Oracle vers PostgreSQL
     weight: 2
 ```
+
+Any new language must provide a translation file under `i18n/` directory.
+
+## Contributors
+
+See [authors.yml](data/authors.yml) collection.

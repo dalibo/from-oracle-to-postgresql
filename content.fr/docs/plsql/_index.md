@@ -4,6 +4,8 @@ bookFlatSection: false
 title: "Portage du code PL/SQL vers PL/pgSQL"
 url: "portage-du-code-pl-sql-vers-pl-pgsql"
 bookCollapseSection: true
+previouspage: "transactions"
+nextpage: "routines"
 ---
 
 # Portage du code PL/SQL vers PL/pgSQL

@@ -3,6 +3,8 @@ weight: 4
 bookFlatSection: false
 title: "PL/SQL code conversion"
 slug: "pl-sql-code-conversion"
+previouspage: "controls"
+nextpage: "cursors"
 ---
 
 ## PL/SQL code conversion

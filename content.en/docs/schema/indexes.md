@@ -2,6 +2,8 @@
 weight: 5
 bookFlatSection: false
 title: "Index migration"
+previouspage: "sequences"
+nextpage: "partitions"
 ---
 
 ## Index migration

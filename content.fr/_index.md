@@ -2,6 +2,7 @@
 title: "Guide de portage Oracle vers PostgreSQL"
 type: docs
 bookToc: false
+nextpage: "/general"
 ---
 
 # Guide de portage Oracle vers PostgreSQL

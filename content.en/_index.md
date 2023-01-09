@@ -2,6 +2,7 @@
 title: "Porting applications from Oracle to PostgreSQL"
 type: docs
 bookToc: false
+nextpage: "/general"
 ---
 
 # Porting applications from Oracle to PostgreSQL

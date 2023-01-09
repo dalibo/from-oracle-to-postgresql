@@ -4,6 +4,8 @@ bookFlatSection: false
 title: "PL/SQL to PL/pgSQL porting"
 url: "pl-sql-to-pl-pgsql-porting"
 bookCollapseSection: true
+previouspage: "transactions"
+nextpage: "routines"
 ---
 
 # PL/SQL to PL/pgSQL porting

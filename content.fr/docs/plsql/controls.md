@@ -2,6 +2,8 @@
 weight: 3
 bookFlatSection: false
 title: "Structures de contrôles"
+previouspage: "triggers"
+nextpage: "code"
 ---
 
 ## Structures de contrôles

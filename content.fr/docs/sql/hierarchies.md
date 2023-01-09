@@ -2,6 +2,8 @@
 weight: 4
 bookFlatSection: false
 title: "Traitement des hiérarchies"
+previouspage: "conditions"
+nextpage: "transactions"
 ---
 
 ## Traitement des hiérarchies

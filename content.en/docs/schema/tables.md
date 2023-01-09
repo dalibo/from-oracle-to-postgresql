@@ -2,6 +2,8 @@
 weight: 2
 bookFlatSection: false
 title: "Table migration"
+previouspage: "types"
+nextpage: "views"
 ---
 
 ## Table migration

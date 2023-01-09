@@ -2,6 +2,8 @@
 weight: 3
 bookFlatSection: false
 title: "Reprise des vues"
+previouspage: "tables"
+nextpage: "sequences"
 ---
 
 ## Reprise des vues

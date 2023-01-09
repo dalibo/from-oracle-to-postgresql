@@ -2,6 +2,8 @@
 weight: 2
 bookFlatSection: false
 title: "Reprise des tables"
+previouspage: "types"
+nextpage: "views"
 ---
 
 ## Reprise des tables

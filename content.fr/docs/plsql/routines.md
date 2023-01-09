@@ -2,6 +2,8 @@
 weight: 1
 bookFlatSection: false
 title: "Portage des procédures et fonctions"
+previouspage: "/plsql"
+nextpage: "triggers"
 ---
 
 ## Portage des procédures et fonctions

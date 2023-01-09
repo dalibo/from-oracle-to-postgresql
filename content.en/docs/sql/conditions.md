@@ -2,6 +2,8 @@
 weight: 3
 bookFlatSection: false
 title: "Conditional expressions"
+previouspage: "joins"
+nextpage: "hierarchies"
 ---
 
 ## Conditional expressions

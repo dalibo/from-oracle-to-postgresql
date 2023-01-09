@@ -2,6 +2,7 @@
 weight: 7
 bookFlatSection: false
 title: "Packages propriétaires"
+previouspage: "specials"
 ---
 
 ## Packages propriétaires

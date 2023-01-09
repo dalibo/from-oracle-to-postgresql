@@ -4,6 +4,8 @@ bookFlatSection: false
 title: "Portage du schéma"
 url: "portage-du-schema-de-la-base-de-donnees"
 bookCollapseSection: true
+previouspage: "/general"
+nextpage: "types"
 ---
 
 # Portage du schéma de la base de données

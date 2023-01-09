@@ -2,6 +2,8 @@
 weight: 6
 bookFlatSection: false
 title: "Reprise des partitions"
+previouspage: "indexes"
+nextpage: "/sql"
 ---
 
 ## Reprise des partitions

@@ -3,6 +3,8 @@ weight: 1
 bookFlatSection: false
 title: "Différences générales"
 url: "differences-generales-entre-oracle-et-postgresql"
+previouspage: "/"
+nextpage: "/schema"
 ---
 
 # Différences générales entre Oracle et PostgreSQL

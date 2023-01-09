@@ -2,6 +2,8 @@
 weight: 1
 bookFlatSection: false
 title: "Spécificités des types de données"
+previouspage: "/sql"
+nextpage: "joins"
 ---
 
 ## Spécificités des types de données

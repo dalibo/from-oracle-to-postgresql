@@ -2,6 +2,8 @@
 weight: 1
 bookFlatSection: false
 title: "Correspondance des types de données"
+previouspage: "/schema"
+nextpage: "tables"
 ---
 
 ## Correspondance des types de données

@@ -3,6 +3,8 @@ weight: 6
 bookFlatSection: false
 title: "Spécificités PL/SQL"
 slug: "specificites-pl-sql"
+previouspage: "cursors"
+nextpage: "syspackages"
 ---
 
 ## Spécificités PL/SQL
