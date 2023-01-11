@@ -12,12 +12,18 @@
 Une première partie traite des différences entre Oracle et PostgreSQL, une seconde
 de la réécriture du schéma de la base de données, une troisième de la réécriture
 des requêtes SQL et la quatrième (et dernière) partie du portage de procédures
-PL/SQL Oracle en fonctions PL/pgSQL PostgreSQL.</p><p>Un projet de migration est souvent découpé en trois phases :</p><ul><li>le portage de la base de données, avec la reprise des données ;</li><li>le portage de l&rsquo;application (requêtes, rapports et procédures stockées) ;</li><li>la recette : comparaisons des résultats, tests de non régression, performances,
-etc.</li></ul><p>La première des trois phases est couverte par l&rsquo;outil Ora2Pg. Un
+PL/SQL Oracle en fonctions PL/pgSQL PostgreSQL.</p><p>Un projet de migration est souvent découpé en plusieurs phases :</p><ul><li>l&rsquo;étude de complexité de la base Oracle ou du parc entier à migrer ;</li><li>le portage de la base de données, avec la reprise des données ;</li><li>le portage de l&rsquo;application (requêtes, rapports et procédures stockées) ;</li><li>la recette : comparaisons des résultats, tests de non régression, performances,
+etc.</li></ul><p>La première de ces quatre phases consiste à estimer l&rsquo;effort (exprimé en heure
+ou en jour) que représente la migration de la base, de ses données et de son
+code embarqué. L&rsquo;outil Ora2Pg propose une
+<a href=https://ora2pg.darold.net/documentation.html#Migration-cost-assessment>série de contrôle</a>
+permettant d&rsquo;évaluer la complexité des objets présents dans une base pour
+produire un rapport avec le coût associé pour chacun d&rsquo;eux et l&rsquo;attribution
+d&rsquo;un score global pour la base.</p><p>La deuxième phase est également couverte par l&rsquo;outil Ora2Pg. Un
 <a href=https://ora2pg.darold.net/documentation.html>manuel
-d&rsquo;utilisation</a> lui étant entièrement dédié, cette partie ne sera pas
-traitée dans le présent document. En revanche, un certain nombre de conversions
-mises en œuvre par Ora2Pg sont décrites dans ce guide de portage.</p><p>Le portage de l&rsquo;application est une phase très délicate. En effet, le portage des
+d&rsquo;utilisation</a> leur étant entièrement dédié, ces deux premières parties
+ne seront pas traitées dans le présent document. Cependant, un certain nombre de
+conversions mises en œuvre par Ora2Pg sont décrites dans ce guide de portage.</p><p>Le portage de l&rsquo;application est une phase très délicate. En effet, le portage des
 requêtes d&rsquo;une application et des procédures stockées de la base de données peut
 être assez difficile du fait des spécificités de chaque base de données.</p><p>Ce guide de portage se veut être un outil permettant de faciliter ce travail de
 réécriture. La recette est une phase primordiale dans un tel projet. Il est
@@ -29,6 +35,6 @@ grand nombre. Nous remercions chaleureusement ici toutes les personnes qui ont
 contribué directement ou indirectement à cet ouvrage, notamment :
 Gilles Darold, Thomas Reiss, Marc Cousin, Jean-Paul Argudo, Philippe Beaudoin, Florent Jardin, Benoit Lobréau.</p></article><hr><div class="flex flex-wrap justify-between"><div></div><div><a href=https://dalibo.github.io/from-oracle-to-postgresql/fr/differences-generales-entre-oracle-et-postgresql/><span>Suivant</span></a><br>Différences générales</div></div><hr><footer class=book-footer><div class="flex flex-wrap justify-between"><div class=book-languages tabindex=0 aria-haspopup=true><ul><li class="flex align-center"><img src=/from-oracle-to-postgresql/svg/translate.svg class=book-icon alt=Languages>
 French</li></ul><ul class=book-languages-list><li><a href=https://dalibo.github.io/from-oracle-to-postgresql/ class="flex align-center"><img src=/from-oracle-to-postgresql/svg/translate.svg class=book-icon alt=Languages>
-English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/a9f09a7467b980b876ac8d1fa9d2c14136defca8 title='Dernière modification par Florent Jardin | January 9, 2023' target=_blank rel=noopener><img src=/from-oracle-to-postgresql/svg/calendar.svg class=book-icon alt=Calendar>
-<span>January 9, 2023</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/_index.md target=_blank rel=noopener><img src=/from-oracle-to-postgresql/svg/edit.svg class=book-icon alt=Edit>
+English</a></li></ul></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/commit/0978f571203f1ba76cba29001b40b82825b25353 title='Dernière modification par Florent Jardin | January 11, 2023' target=_blank rel=noopener><img src=/from-oracle-to-postgresql/svg/calendar.svg class=book-icon alt=Calendar>
+<span>January 11, 2023</span></a></div><div><a class="flex align-center" href=https://github.com/dalibo/from-oracle-to-postgresql/edit/main/content.fr/_index.md target=_blank rel=noopener><img src=/from-oracle-to-postgresql/svg/edit.svg class=book-icon alt=Edit>
 <span>Modifier cette page</span></a></div></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div></main></body></html>
