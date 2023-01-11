@@ -14,16 +14,21 @@ part is about differences between Oracle and PostgreSQL, the second about rewrit
 the database's schema, the third about rewriting queries, and the fourth (and last) 
 about porting Oracle's PL/SQL procedures to PostgreSQL's PL/pgSQL functions. 
 
-A migration project is often separated into three phases:
+A migration project is often separated into several phases:
 
+* evaluating database complexity with a cost assessment tool;
 * porting the database, with its data;
 * porting the program (queries, reports, stored procedures);
 * software testing: results comparison, regression testing, benchmarking, etc…
 
-The porting of the database with its data is done with Ora2Pg. As it has its
-complete [user's manual][ora2pg], the subject won't be covered by this document.
-Nevertheless, some of conversions performed by Ora2Pg are described in this
-guide. 
+The database complexity evaluation consits in estimating the effort represented
+by the database migration, its data and its stored procedures. Ora2Pg provides a
+common way to produce a cost assessment report for each candidate database.
+
+The porting of the database with its data is also done with Ora2Pg. As it has
+its complete [user's manual][ora2pg], the subject won't be covered by this
+document. Nevertheless, some of conversions performed by Ora2Pg are described in
+this guide. 
 
 [ora2pg]: https://ora2pg.darold.net/documentation.html
 
