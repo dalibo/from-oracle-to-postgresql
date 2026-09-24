@@ -37,12 +37,12 @@ l'appelant.
 
 ## Portage des packages
 
-Un _package_ Oracle, ou paquet de fonctions, est le regroupement logique de 
-variables et de procédures stockées. Il n'existe pas de notion de paquets de 
-fonctions dans PostgreSQL. Pour simplifier le portage, Ora2Pg va créer un schéma 
-portant le nom du paquet et importer les fonctions dans ce schéma. Ceci permet 
-de garder la notation Oracle `PACKAGE.PROCEDURE` qui sera en fait sous 
-PostgreSQL `SCHEMA.FONCTION`.
+Un _package_ Oracle, ou paquet de fonctions, est le regroupement logique de
+variables et de procédures stockées. Il n'existe pas de notion de paquets de
+fonctions dans PostgreSQL. Pour simplifier le portage, il est recommandé de
+créer un schéma portant le nom du paquet et importer les fonctions dans ce
+schéma. Ceci permet de garder la notation Oracle `PACKAGE.PROCEDURE` qui sera en
+fait sous PostgreSQL `SCHEMA.FONCTION`.
 
 Oracle permet également de définir des fonctions à l'intérieur d'autres fonctions. 
 PostgreSQL ne le permet pas avec PL/PgSQL. Elles devront être extraites du corps 

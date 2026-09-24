@@ -134,8 +134,7 @@ L'extension `pg_trgm`, bien qu'elle ne soit pas incluse dans le cœur de Postgre
 est distribuée avec PostgreSQL (paquet postgresql-contrib) et est maintenue par 
 les développeurs de PostgreSQL.
 
-Ce type d'index n'est pas créé automatiquement par Ora2Pg, il nécessite une 
-intervention manuelle.
+Ce type d'index nécessite une intervention manuelle.
 
 ```sql
 CREATE EXTENSION pg_trgm;

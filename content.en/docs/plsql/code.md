@@ -72,13 +72,10 @@ the rest of the tests. This is not applicable to SQL though, only to PL/SQL.
 IF vidfee = '' THEN vidfee := NULL END;
 ```
 
-Ora2Pg does these code conversions automatically by default, the directive
-`NULL_EQUAL_EMPTY` disables this behavior.
-
 ### Queries and functions execution
 
 When a `SELECT` with no `INTO` clause exists, it has to be replaced by
-`PERFORM`. This is also done automatically by Ora2Pg.
+`PERFORM`.
 
 Thus, the following extract from a PL/SQL procedure:
 
@@ -102,7 +99,7 @@ END;
 
 In addition, the `EXEC` instruction used to retrieve into a variable the return
 code from a PL/SQL function doesn't exist in PostgreSQL. This has to be
-rewritten by using `SELECT INTO` This is performed by Ora2Pg.
+rewritten by using `SELECT INTO`.
 
 The following PL/SQL extract:
 
@@ -120,12 +117,10 @@ SELECT get_version() INTO a;
 
 To execute a dynamically built query, Oracle provides an `EXECUTE IMMEDIATE`
 clause. In PostgreSQL, the `IMMEDIATE` must be removed, as it in not supported.
-Indeed, an `EXECUTE` is always executed immediately. This is performed
-automatically by Ora2Pg.
+Indeed, an `EXECUTE` is always executed immediately.
 
 Furthermore, one should use `quote_literal`, `quote_nullable` and `quote_ident`
-to build a dynamic SQL query in PostgreSQL. This avoids SQL injection. This
-isn't performed by Ora2Pg.
+to build a dynamic SQL query in PostgreSQL. This avoids SQL injection.
 
 For instance, the following SQL code:
 
@@ -163,7 +158,7 @@ be purely and simply deleted.
 
 Exceptions' handling is quite different between Oracle and PostgreSQL. First,
 Oracle's `SQLCODE` is almost equivalent to PostgreSQL's `SQLSTATE`. One has thus to
-be replaced by the other, which is performed by Ora2Pg.
+be replaced by the other.
 
 But the most notable difference is the way the error is handled. If an error is
 triggered in a PL/SQL block, only the triggering statement is rollbacked. As a

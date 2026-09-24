@@ -13,7 +13,7 @@ The _cursors_ variable's notation is different in Oracle and PostgreSQL.
 ### Cursors declaration
 
 With Oracle, a cursor is declared this way: `CURSOR mycursor`. This has to be
-reverted with PostgreSQL: `mycursor CURSOR`. This is performed by Ora2Pg.
+reverted with PostgreSQL: `mycursor CURSOR`.
 
 Oracle's `REF CURSOR` and `SYS_REFCURSOR` also have to be modified, both to
 `REFCURSOR` for PostgreSQL.
@@ -64,7 +64,7 @@ return_cur REFCURSOR;
 The exit code of a cursor loop has to be modified. Oracle's construct `EXIT WHEN
 ...%NOTFOUND` is not accepted by PostgreSQL. It has to be replaced by this kind
 of construct: `IF NOT FOUND THEN EXIT; END IF;`. The `SQL%NOTFOUND` also has to
-be replaced by `NOT FOUND`. Both these transformations are performed by Ora2Pg.
+be replaced by `NOT FOUND`.
 
 The following PL/SQL extract:
 

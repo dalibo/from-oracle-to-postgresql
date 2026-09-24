@@ -49,7 +49,7 @@ between both RDBMS.
 Triggers on statements need some rewriting on their declaration. In Oracle, when
 the `FOR EACH ROW` clause is not present, the resulting trigger is a `FOR EACH
 STATEMENT`. In PostgreSQL, the default trigger is `FOR EACH ROW`. So `FOR EACH
-STATEMENT` triggers have to be converted. Ora2Pg takes care of this. 
+STATEMENT` triggers have to be converted.
 
 This `FOR EACH STATEMENT` trigger in Oracle: 
 

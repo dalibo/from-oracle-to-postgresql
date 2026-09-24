@@ -22,15 +22,9 @@ A migration project is often separated into several phases:
 * software testing: results comparison, regression testing, benchmarking, etc…
 
 The database complexity evaluation consits in estimating the effort represented
-by the database migration, its data and its stored procedures. Ora2Pg provides a
-common way to produce a cost assessment report for each candidate database.
+by the database migration, its data and its stored procedures.
 
-The porting of the database with its data is also done with Ora2Pg. As it has
-its complete [user's manual][ora2pg], the subject won't be covered by this
-document. Nevertheless, some of conversions performed by Ora2Pg are described in
-this guide. 
-
-[ora2pg]: https://ora2pg.darold.net/documentation.html
+The porting of the database won't be covered by this document.
 
 The porting of the application is a very delicate phase. Indeed, the porting of 
 an application's queries and stored procedures can be quite complex because of 

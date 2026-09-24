@@ -29,8 +29,7 @@ in PostgreSQL.
 ### Boolean type
 
 Oracle does not handle a proper boolean type. Depending on the application 
-developper, a `CHAR` or a `NUMBER` type is used to emulate the behavior. Ora2Pg 
-can handle the transformation of a boolean value to PostgreSQL.
+developper, a `CHAR` or a `NUMBER` type is used to emulate the behavior. 
 
 Also, note that the lack of boolean value in Oracle can result in some pains with 
 ORM like Hibernate if the datatypes are not ported correctly. The column seen 

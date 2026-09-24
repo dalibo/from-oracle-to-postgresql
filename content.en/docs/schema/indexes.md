@@ -114,8 +114,7 @@ The `pg_trgm` extension, though not included in PostgreSQL directly, is distribu
 along with PostgreSQL (postgresql-contrib package) and maintained by PostgreSQL's 
 developers themselves.
 
-This index type is not directly created by Ora2Pg, it has to be performed 
-manually. 
+This index type has to be performed manually. 
 
 ```sql
 CREATE EXTENSION pg_trgm;

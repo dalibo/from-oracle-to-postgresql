@@ -53,7 +53,6 @@ déclaration du trigger. Dans Oracle, lorsque la mention `FOR EACH ROW` n'est pa
 précisée, le trigger est un trigger équivalent au type `FOR EACH STATEMENT`. 
 Dans PostgreSQL, si ce n'est pas précisé, le trigger est un trigger `FOR EACH ROW` 
 - les triggers sur instruction nécessitent donc d'être adapté en conséquence. 
-Ora2Pg supporte cette opération.
 
 Ainsi, l'équivalent du trigger `FOR EACH STATEMENT` Oracle s'écrit de cette 
 manière :

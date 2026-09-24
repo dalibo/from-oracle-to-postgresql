@@ -28,8 +28,7 @@ spécifiques à Oracle sont nommés différemment dans PostgreSQL.
 ### Traitement des booléens
 
 Oracle ne possède pas de type de données représentant des booléens. De ce fait,
-une chaîne de caractères est souvent utilisée. Ora2Pg permet de convertir des
-données représentant un booléen vers PostgreSQL.
+une chaîne de caractères est souvent utilisée.
 
 Par ailleurs, l'absence de type booléen dans Oracle entraîne des difficultés avec
 des ORM tel que Hibernate. En effet, la colonne configurée comme un booléen dans

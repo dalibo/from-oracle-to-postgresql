@@ -77,13 +77,10 @@ SQL cependant, uniquement à PL/SQL.
 IF vidtarif = '' THEN vidtarif := NULL END;
 ```
 
-Ora2Pg fait ces conversions de code automatiquement par défaut, la directive 
-`NULL_EQUAL_EMPTY` permet de désactiver ce comportement.
-
 ### Exécution de requêtes et de fonctions
 
 Lorsqu'un `SELECT` sans clause `INTO` est présent, il doit être remplacé par 
-`PERFORM`. Cette transformation est également prise en charge par Ora2Pg.
+`PERFORM`.
 
 Ainsi, l'extrait suivant d'une procédure PL/SQL :
 
@@ -107,8 +104,7 @@ END;
 
 Par ailleurs, l'instruction `EXEC` permettant de récupérer le code retour d'une 
 fonction PL/SQL dans une variable n'existe pas dans PostgreSQL. Il faut la réécrire
-en utilisant l'instruction `SELECT INTO`. Cette transformation est prise en charge
-par Ora2Pg.
+en utilisant l'instruction `SELECT INTO`.
 
 Ainsi, l'extrait de code PL/SQL ci-dessous :
 
@@ -127,13 +123,12 @@ SELECT get_version() INTO a;
 Oracle a un ordre `EXECUTE IMMEDIATE` pour exécuter une requête construite 
 dynamiquement. Dans PostgreSQL, le mot clé `IMMEDIATE` doit être supprimé car
 il n'est pas supporté. En effet, un ordre `EXECUTE` est toujours réalisé 
-immédiatement. Cette transformation est réalisée par Ora2Pg.
+immédiatement.
 
 Par ailleurs, il est préférable de modifier la construction de l'ordre SQL 
 dynamique pour utiliser les fonctions `quote_literal` et `quote_ident` de 
 PostgreSQL, respectivement pour encadrer les valeurs littérales et les identifiants
-(noms d'objets). Cette adaptation permet de se protéger des injections SQL. Elle 
-n'est pas prise en charge par Ora2Pg.
+(noms d'objets). Cette adaptation permet de se protéger des injections SQL.
 
 Par exemple, l'extrait de code SQL suivant :
 
@@ -173,8 +168,7 @@ intermédiaires peuvent souvent être purement et simplement supprimées.
 
 Le traitement des exceptions diffère quelque peu entre Oracle et PostgreSQL. La
 variable `SQLCODE` d'Oracle est le presque équivalent de `SQLSTATE` dans
-PostgreSQL. Il est donc nécessaire de transformer `SQLCODE` en `SQLSTATE`, ce
-que fait Ora2Pg.
+PostgreSQL. Il est donc nécessaire de transformer `SQLCODE` en `SQLSTATE`.
 
 Oracle et PostgreSQL sont fondamentalement différents dans le traitement des
 exceptions. La différence la plus notable est la façon dont l'erreur est gérée.

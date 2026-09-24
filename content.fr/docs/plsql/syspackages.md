@@ -14,9 +14,9 @@ comportement proche de ceux proposés par Oracle.
 
 ### Appels au package DBMS_OUTPUT
 
-Les appels aux fonctions de sortie Oracle `DBMS_OUTPUT.put_line`, 
-`DBMS_OUTPUT.put` et `DBMS_OUTPUT.new_line` sont remplacés par `RAISE NOTICE` 
-par Ora2Pg.
+Les appels aux fonctions de sortie Oracle `DBMS_OUTPUT.put_line`,
+`DBMS_OUTPUT.put` et `DBMS_OUTPUT.new_line` doivent être remplacés par `RAISE
+NOTICE`.
 
 Ainsi, la procédure Oracle suivante :
 

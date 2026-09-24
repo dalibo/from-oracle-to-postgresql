@@ -39,7 +39,7 @@ function is written is of no importance to the caller.
 
 An Oracle _package_ is the logical grouping of variables and stored procedures in
 a namespace. There is no equivalent in PostgreSQL. To simplify the porting,
-Ora2Pg will create a schemas with the package names and put functions in their
+You will create a schemas with the package names and put functions in their
 respective schemas. This will make it possible to use Oracle's `PACKAGE.PROCEDURE`
 notation which will become `SCHEMA.FUNCTION`.
 
@@ -87,4 +87,4 @@ a := current_setting('myschema.id_region');
 
 Please note that you can also, obviously, use a table for this. Some other PL
 languages, such as PL/Perl, have global variables, and may also be an
-interesting alternative. 
+interesting alternative.
