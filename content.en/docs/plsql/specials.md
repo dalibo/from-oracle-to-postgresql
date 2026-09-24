@@ -103,8 +103,7 @@ References:
 ### VARRAY collections
 
 `VARRAY` collections in Oracle _packages_ are migrated to PostgreSQL arrays.
-Their definition is created by Ora2Pg, but they usually need a rewrite of the
-code using them.
+They usually need a rewrite of the code using them.
 
 When a `VARRAY` is a simple array of a scalar datatype, there is less rewriting
 work to be done than when dealing with a `%ROWTYPE VARRAY`. In this case, there
@@ -123,7 +122,7 @@ will be converted to:
 CREATE TYPE calendar AS (date[366]);
 ```
 
-The next one, though converted by Ora2Pg, won't work without modification: 
+The next one, won't work without modification: 
 
 ```sql
 TYPE t_tab_emp IS VARRAY (1000) OF emp%ROWTYPE;
@@ -139,16 +138,13 @@ TABLE` or a `RETURNS SETOF data_type` for simple data types. Please refer to
 _PIPELINED attribute and PIPE ROW instruction_ for an example where a `TABLE OF`
 collection is not necessary.
 
-Anyway, Ora2Pg translates this data type to an array of the associated type, and
-will probably need some rework of the translated code.
-
 Thus, the following declaration:
 
 ```sql
 CREATE TYPE information IS TABLE OF VARCHAR2(255);
 ```
 
-will be converted to an array of `varchar(255)` by Ora2Pg: 
+will be converted to an array of `varchar(255)`: 
 
 ```sql
 CREATE TYPE information AS VARCHAR(255)[];

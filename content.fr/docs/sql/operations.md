@@ -29,10 +29,8 @@ SELECT * FROM TABLE WHERE col = '';
 SELECT * FROM TABLE WHERE col IS NULL;
 ```
 
-Mais sous PostgreSQL, les deux requêtes ne retourneront pas le même résultat. 
-Ora2Pg transpose les valeurs `NULL` des colonnes en `VARCHAR2` en valeur 
-`NULL` pour un type `VARCHAR`. La première requête ne retournera aucun 
-résultat.
+Mais sous PostgreSQL, les deux requêtes ne retourneront pas le même résultat. La
+première requête ne retournera aucun résultat.
 
 Il est donc nécessaire de réécrire la requête concernée en utilisant les opérateurs
 `IS NULL` ou `IS NOT NULL`. Dans ce cas, la requête pourra utiliser un index 

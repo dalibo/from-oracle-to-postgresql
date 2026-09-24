@@ -59,7 +59,7 @@ References:
 Oracle functions declared as `DETERMINISTIC` will be converted to PostgreSQL
 functions with an `IMMUTABLE` attribute. `IMMUTABLE` and `DETERMINISTIC`
 indicate that the function doesn't access the database, and that it will return
-the same result given the same parameters. This is supported by Ora2Pg. 
+the same result given the same parameters.
 
 Thus, the following declaration for Oracle:
 
@@ -116,10 +116,9 @@ CREATE PACKAGE BODY pkg1 AS
 END pkg1;
 ```
 
-It will be ported quite easily by Ora2Pg:
+It will be ported quite easily:
 
-* the `numset_t` type isn't converted, it will have to be modified manually
-  after the Ora2Pg run;
+* the `numset_t` type will have to be modified manually;
 * if the return type was `%ROWTYPE` in Oracle, it would have been ported to `SET
   OF record`;
 * the pkg1 package is converted to a pkg1 schema;

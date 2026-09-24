@@ -15,7 +15,7 @@ PostgreSQL.
 
 Sous Oracle, on déclare un curseur de cette façon : `CURSOR moncurseur`. Il 
 est nécessaire d'inverser cette déclaration pour la rendre compatible avec 
-PostgreSQL : `moncurseur CURSOR`. Ce cas est traité par Ora2Pg.
+PostgreSQL : `moncurseur CURSOR`.
 
 Les curseurs de type `REF CURSOR` et `SYS_REFCURSOR` sous Oracle doivent 
 également être modifiés en `REFCURSOR` sous PostgreSQL.
@@ -72,7 +72,6 @@ Enfin, le code de sortie d'un curseur doit être modifié. La construction Oracl
 `EXIT WHEN ...%NOTFOUND` n'est pas reconnue par PostgreSQL. Elle doit être 
 remplacée par une construction de ce type : `IF NOT FOUND THEN EXIT; END IF;`.
 La construction `SQL%NOTFOUND` est également à remplacer par `NOT FOUND`. 
-Ces deux transformations sont prises en compte par Ora2Pg.
 
 L'extrait de code PL/SQL suivant :
 

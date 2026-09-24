@@ -102,9 +102,9 @@ Références :
 
 ### Les collections VARRAY
 
-Les collections `VARRAY` des _packages_ Oracle sont reprises sous la forme d'un 
-type tableau, de `n` éléments. Leur définition est reprise par Ora2Pg, mais elles
-nécessitent généralement une réécriture du code l'utilisant.
+Les collections `VARRAY` des _packages_ Oracle sont reprises sous la forme d'un
+type tableau, de `n` éléments. Elles nécessitent généralement une réécriture du
+code l'utilisant.
 
 Lorsque la `VARRAY` est un simple tableau d'un type donné, la reprise nécessite 
 moins d'intervention que lorsque la `VARRAY` est du type `%ROWTYPE`. Dans ce 
@@ -123,8 +123,8 @@ sera transposé de la façon suivante :
 CREATE TYPE calendar AS (date[366]);
 ```
 
-En revanche, le code suivant sera transposé par Ora2Pg mais inutilisable sans 
-modifications :
+En revanche, le code suivant pourrait être la traduction littérale mais
+inutilisable sans modifications :
 
 ```sql
 TYPE t_tab_emp IS VARRAY (1000) OF emp%ROWTYPE;
@@ -142,8 +142,9 @@ un `RETURNS SETOF type_de_donnees` pour les types de données simples. Se réfé
 des procédures et fonctions » pour un exemple où la collection `TABLE OF` est 
 inutile.
 
-Quoi qu'il en soit, Ora2Pg traduit ce type de données par un tableau du type de 
-données associé, nécessitant probablement une révision du code porté.
+Quoi qu'il en soit, il est possible de traduire ce type de données par un
+tableau du type de données associé, mais nécessitant probablement une révision
+du code porté.
 
 Ainsi, la déclaration suivante :
 
@@ -151,7 +152,7 @@ Ainsi, la déclaration suivante :
 CREATE TYPE information IS TABLE OF VARCHAR2(255);
 ```
 
-sera transposée en tableau de type VARCHAR(255) par Ora2Pg :
+sera transposée en tableau de type VARCHAR(255) :
 
 ```sql
 CREATE TYPE information AS VARCHAR(255)[];

@@ -14,8 +14,7 @@ to those proposed by Oracle.
 ### DBMS_OUTPUT package calls
 
 Calls to Oracle's `DBMS_OUTPUT.put_line`, `DBMS_OUTPUT.put` and
-`DBMS_OUTPUT.new_line` output functions are replaced to `RAISE NOTICE` by
-Ora2Pg.
+`DBMS_OUTPUT.new_line` output functions are replaced to `RAISE NOTICE`.
 
 Thus, the following procedure, from Oracle:
 

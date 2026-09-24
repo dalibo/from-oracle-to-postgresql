@@ -64,7 +64,7 @@ Les fonctions Oracle déclarées avec l'attribut `DETERMINISTIC` seront portées
 en fonctions PostgreSQL avec un attribut `IMMUTABLE`. `IMMUTABLE` et 
 `DETERMINISTIC` indiquent que la fonction ne peut pas modifier la base de 
 données et qu'à arguments constants, la fonction retourne toujours le même 
-résultat. Cette fonctionnalité est supportée par Ora2Pg.
+résultat.
 
 Ainsi, la déclaration suivante pour Oracle :
 
@@ -123,10 +123,9 @@ CREATE PACKAGE BODY pkg1 AS
 END pkg1;
 ```
 
-Il est porté assez simplement par Ora2Pg :
+Le portage est assez simple :
 
-* le type `numset_t` n'est pas repris, il faudra le modifier manuellement après 
-le portage par Ora2Pg ;
+* le type `numset_t` doit être traité manuellement ;
 * si le type de retour était du type `%ROWTYPE` sous Oracle, il aurait été porté
 en `SET OF record` ;
 * le package pkg1 est transformé en schéma pkg1 ;

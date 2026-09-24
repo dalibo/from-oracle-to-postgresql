@@ -27,8 +27,7 @@ SELECT * FROM TABLE WHERE col = '';
 SELECT * FROM TABLE WHERE col IS NULL;
 ```
 
-PostgreSQL won't return the same result. Ora2Pg converts `VARCHAR2` null columns
-to varchar null columns, so the first query won't return anything. 
+PostgreSQL won't return the same result.
 
 It is therefore compulsory to rewrite this query using `IS NULL` or `IS NOT NULL`. 
 PostgreSQL will be able to use an index for this search. 
